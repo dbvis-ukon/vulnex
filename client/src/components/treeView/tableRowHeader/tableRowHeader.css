@@ -1,0 +1,93 @@
+.TableRowHeader {
+    height: 80px;
+}
+
+.TreeHeader {
+    position: absolute;
+    left: 230px;
+    font-weight: bold;
+}
+
+.DependenciesHeader {
+    position: absolute;
+    left: 760px;
+}
+
+.ErrorHeader {
+    position: absolute;
+    left: 820px;
+}
+
+.CvssHeader {
+    position: absolute;
+    left: 915px;
+    font-weight: bold;
+}
+
+.ScoreScale {
+    position: absolute;
+    left: 916px;
+    top: 100px;
+    width: 144px;
+    height: 30px;
+    margin-left: -12px;
+}
+
+.ScaleText {
+    position: absolute;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.ScaleLineBase {
+    position: absolute;
+    left: 11px;
+    top: 27px;
+    width: 200px;
+    height: 1px;
+    background-color: black;
+    color: black;
+}
+
+.ScaleLineSmall {
+    position: absolute;
+    top: 24px;
+    width: 1px;
+    height: 3px;
+    background-color: black;
+    color: black;
+}
+
+.TopBugsHeader {
+    display: inline;
+    position: absolute;
+    left: 1180px;
+}
+
+.DiagonalLabel {
+    position: absolute;
+    height: 80px;
+    width: 160px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+    transform: rotate(-45deg);
+}
+
+.CvssLabelHeader {
+    display: inline;
+    position: absolute;
+    left: 959px;
+}
+
+.MetaInfoLabelHeader {
+    display: inline;
+    position: absolute;
+    left: 1382px;
+}
+
+.MetaInfoSeparator {
+    display: inline;
+    width: 8px;
+    height: 1px;
+}

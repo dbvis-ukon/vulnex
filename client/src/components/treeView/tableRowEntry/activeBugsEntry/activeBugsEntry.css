@@ -1,0 +1,33 @@
+
+.TopBugsEmptyBackground {
+    display: inline-block;
+    position: absolute;
+    height: 20px;
+    margin-left: 1px;
+    background-color: rgb(238, 238, 238);
+}
+
+.TopBugsEmptyForeground {
+    display: inline-block;
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    height: 1px;
+    background-color: rgb(172, 172, 172);
+}
+
+.ActiveEntry {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 2px;
+    background-color: rgb(126, 126, 126);
+}
+
+.InactiveEntry {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 2px;
+    background-color: rgb(186, 186, 186);
+}

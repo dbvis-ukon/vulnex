@@ -1,0 +1,30 @@
+{
+  "short_name": "SPARTA vulnerability explorer",
+  "name": "The SPARTA vulnerability explorer for projects Eclipse Foundation.",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "256x256 64x64 32x32 24x24 16x16 8x8",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "236x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "629x512"
+    },
+	{
+      "src": "logo-rectangle-dark.png",
+      "type": "image/png",
+      "sizes": "2518x602"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

@@ -1,0 +1,82 @@
+.Sidebar {
+    width: 228px;
+    min-height: 100vh;
+    margin-left: 0;
+    font-size: 14px;
+}
+
+.SidebarLabel {
+    margin-top: 12px;
+    margin-left: 12px;
+    width: 228px;
+    font-weight: bolder;
+    text-align: left;
+}
+
+.Filter {
+    margin-bottom: 15px;
+    text-align: start;
+}
+
+.FilterLabel {
+    display: inline-block;
+    text-align: start;
+    margin-left: 12px;
+}
+
+.FilterValue {
+    position: absolute;
+    left: 180px;
+    display: inline;
+    text-align: end;
+}
+
+.RangeSlider {
+    -webkit-appearance: none;
+    outline: none;
+    width: 205px;
+    height: 5px;
+    background: #ccc;
+    border-radius: 34px;
+    margin-left: 10px;
+}
+
+.RangeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: white;
+    box-shadow: 0 0 4px #2196f3;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.RangeSlider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: white;
+    box-shadow: 0 0 4px #2196f3;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.SearchField {
+    margin-left: 10px;
+    width: 208px;
+    height: 25px;
+}
+
+.OptionsLabel {
+    margin-top: 10px;
+    margin-left: 12px;
+    width: 228px;
+    text-align: left;
+}
+
+.OptionsSwitch {
+    margin-top: 5px;
+    margin-left: 80px;
+    width: 228px;
+    text-align: left;
+}

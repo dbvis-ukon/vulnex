@@ -1,0 +1,7 @@
+server/.idea/
+
+server/.classpath
+server/.settings/
+
+server/target/
+db-importer/tmp.json
