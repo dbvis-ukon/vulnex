@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "SPARTA vulnerability explorer",
   "author": "Frederik Dennig",
-  "license": "MIT",
   "private": true,
   "repository": {
     "type": "git",
