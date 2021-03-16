@@ -68,7 +68,10 @@ usage: $./crawler.sh [-adhprs]
 -t      Reset all pom.xml files
 ```
 
----
+
+License
+-------------
+
 Author: Frederik Dennig
 
-Copyright 2019
+Released under a Apache License 2.0. See the [LICENSE](LICENSE) file for details. This work was funded by the the European Union’s Horizon 2020 research and innovation programme under grant agreement No 830892. 
