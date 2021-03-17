@@ -27,17 +27,12 @@ Crawling data
 * Apache Maven 3.6.3
 * Docker (`docker` and `docker-compose`)
 
-### Preparation
+### Preparation - Setup **Eclipse Steady**
 
-1. Setup **Eclipse Steady**
-  * Clone `https://github.com/eclipse/steady.git`
-  * Build with `mvn clean install -DskipTests` (see https://github.com/eclipse/steady)
-  * Create and deploy the Docker container (see https://eclipse.github.io/steady/admin/tutorials/docker/)
-
-
-2. Fill the vulnerability database
-  * Clone `https://github.com/SAP/vulnerability-assessment-kb.git`
-  * Run the `import_vulas_kb.sh` script (see https://github.com/SAP/vulnerability-assessment-kb)
+* Clone `https://github.com/eclipse/steady.git`
+* Build with `mvn clean install -DskipTests` (see https://github.com/eclipse/steady)
+* Create and deploy the Docker container (see https://eclipse.github.io/steady/admin/tutorials/docker/)
+* Populate the vulnerability database (see https://eclipse.github.io/steady/vuln_db/tutorials/vuln_db_tutorial/#batch-import-from-knowledge-base)
 
 ### Execute
 
