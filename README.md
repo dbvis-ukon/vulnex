@@ -1,4 +1,4 @@
-vulnex
+VulnEx
 ======
 
 Building and running
@@ -62,7 +62,6 @@ usage: $./crawler.sh [-adhprs]
 -s      Synchronize the repository list
 -t      Reset all pom.xml files
 ```
-
 
 License
 -------------
