@@ -10,6 +10,7 @@ import { INTERVALS } from 'reducers/bugDisplayReducer';
 interface Props {
     itemType: ItemType;
     itemId: number;
+    numChildren: number;
     bugIds: number[] | null;
     showAllBugs: boolean;
     bugDisplay: string;
@@ -30,8 +31,8 @@ class TableRowEntry extends React.Component<Props, State>  {
         }
 
         const isBug = () => this.props.itemType === ItemType.Bug;
-        const isLibrary = () => this.props.itemType === ItemType.Library;
-        const isModule = () => this.props.itemType === ItemType.Module;
+        //const isLibrary = () => this.props.itemType === ItemType.Library;
+        //const isModule = () => this.props.itemType === ItemType.Module;
         const isRepository = () => this.props.itemType === ItemType.Repository;
 
         const bugs = DataStorageService.getInstance().getBugsWithIds(this.props.bugIds);
@@ -137,40 +138,17 @@ class TableRowEntry extends React.Component<Props, State>  {
         const warningPosition = { left: '840px' };
 
         let dependeciesEntry = null;
+        if (this.props.numChildren > 0) {
+            dependeciesEntry = <div className='DependenciesEntry' style={dependeciesPosition}>{this.props.numChildren}</div>
+        }
+        
         let errorEntry = null;
         let warningEntry = null;
 
         const numErrors = bugs.filter(e => e.cvssScore !== -1).length; 
         const numWarnings = bugs.length - numErrors;
 
-        if (isBug()) {
-            dependeciesEntry = <div className='DependenciesEntry' style={dependeciesPosition}>
-                {DataStorageService.getInstance().getReferencedBugsWithIds([this.props.itemId])[0].refs.repositoryIds.length}
-            </div>
-        }
-
         if (!isBug()) {
-
-            /* Dependencies */
-
-            if (isLibrary()) {
-                dependeciesEntry = <div className='DependenciesEntry' style={dependeciesPosition}>
-                    {DataStorageService.getInstance().getReferencedFilesWithIds([this.props.itemId])[0].refs.repositoryIds.length}
-                </div>
-            }
-
-
-            if (isModule()) {
-                dependeciesEntry = <div className='DependenciesEntry' style={dependeciesPosition}>
-                    {DataStorageService.getInstance().getReferencedModulesWithIds([this.props.itemId])[0].refs.libraryIds.length}
-                </div>
-            }
-
-            if (isRepository()) {
-                dependeciesEntry = <div className='DependenciesEntry' style={dependeciesPosition}>
-                    {DataStorageService.getInstance().getReferencedRepositoriesWithIds([this.props.itemId])[0].refs.moduleIds.length}
-                </div>
-            }
 
             /* Errors */
 
@@ -195,6 +173,17 @@ class TableRowEntry extends React.Component<Props, State>  {
                         {numErrors}
                     </div>
             }
+
+        } else {
+                errorEntry = numErrors === 0 ?
+                    <div className='DashEntry' style={errorOnlyPosition}>-</div>
+                    :
+                    <div className='ErrorEntry' style={errorOnlyPosition}>
+                        {
+                        //@ts-ignore
+                        DataStorageService.getInstance().getReferencedBugsWithIds([this.props.itemId])[0].refs.repositoryIds.length
+                        }
+                    </div>
         }
 
         return (

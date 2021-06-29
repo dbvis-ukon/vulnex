@@ -55,24 +55,34 @@ class RepositoryTreeElement extends React.Component<TreeElementProps, State>  {
     
             let expandSymbol = <span>•</span>;
             if (filtered.length > 0) {
+
                 expandSymbol = this.state.expanded ? <IoIosArrowDown onClick={arrowClickEvent} /> : <IoIosArrowForward onClick={arrowClickEvent} />;
+                
+                if (filtered[0].type !== ItemType.Bug) {
+                    // @ts-ignore
+                    filtered.sort(this.props.sorting.sortFunc);
+                } else {
+                    // @ts-ignore
+                    filtered.sort((a, b) => b.data.cvssScore - a.data.cvssScore);
+                }
             }
     
             const graphSymbol = <IoIosGitNetwork onClick={handleGraphSymbolClick} />;
     
             const errorIcon = isErrorOn() ? <IoIosCloseCircle /> : <span className='EmptySymbol'></span>;
+
     
             const elements = filtered.map((e, i) => <TreeElement key={i} tableState={this.props.tableState} dataItems={this.props.dataItems.concat([e])} />);
-    
-            const indent = { margin: '0px 0px 0px ' + (this.props.dataItems.length === 1 ? 0 : 25) + 'px' }
-    
+            
+            const indent = { margin: '0px 0px 0px ' + (this.props.dataItems.length === 1 ? 0 : 25) + 'px' }   
+
             return (
                 <div style={indent}>
                     {expandSymbol} {graphSymbol}&nbsp;
                     <div style={{ display: 'inline', color: REPOSITORY_COLOR }}>
                         {errorIcon} <IoIosApps />  {data.name}
                     </div>
-                    <TableRowEntry itemType={ItemType.Repository} itemId={item.id} bugIds={item.refs.bugIds} showAllBugs={false} bugDisplay={INTERVALS} />
+                    <TableRowEntry itemType={ItemType.Repository} itemId={item.id} numChildren={elements.length} bugIds={item.refs.bugIds} showAllBugs={false} bugDisplay={INTERVALS} />
                     {this.state.expanded ? elements : null}
                 </div>
             );
@@ -89,7 +99,7 @@ class RepositoryTreeElement extends React.Component<TreeElementProps, State>  {
         const maxCvss = max(filteredScores);
         
         // @ts-ignore
-        if (this.props.filter.showAllModules && numErrors === 0) {
+        if (this.props.filter.showAllModules) {
             return element();
         }        
 
@@ -105,6 +115,7 @@ class RepositoryTreeElement extends React.Component<TreeElementProps, State>  {
 const mapStateToProps = (state: any, ownProps: TreeElementProps) => {
     return {
         filter: state.filter,
+        sorting: state.sort,
     };
 }
 

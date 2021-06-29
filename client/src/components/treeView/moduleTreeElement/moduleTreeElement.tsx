@@ -45,7 +45,16 @@ class ModuleTreeElement extends React.Component<TreeElementProps, State>  {
 
             let expandSymbol = <span>•</span>;
             if (filtered.length > 0) {
+                
                 expandSymbol = this.state.expanded ? <IoIosArrowDown onClick={arrowClickEvent} /> : <IoIosArrowForward onClick={arrowClickEvent} />;
+                
+                if (filtered[0].type !== ItemType.Bug) {
+                    // @ts-ignore
+                    filtered.sort(this.props.sorting.sortFunc);
+                } else {
+                    // @ts-ignore
+                    filtered.sort((a, b) => b.data.cvssScore - a.data.cvssScore);
+                }
             }
 
             const graphSymbol = <IoIosGitNetwork onClick={handleGraphSymbolClick} />;
@@ -62,7 +71,7 @@ class ModuleTreeElement extends React.Component<TreeElementProps, State>  {
                     <div style={{ display: 'inline', color: MODULE_COLOR }}>
                         <IoIosFolder /> {text}
                     </div>
-                    <TableRowEntry itemType={ItemType.Module} itemId={item.id} bugIds={item.refs.bugIds} showAllBugs={false} bugDisplay={INTERVALS} />
+                    <TableRowEntry itemType={ItemType.Module} itemId={item.id} numChildren={elements.length} bugIds={item.refs.bugIds} showAllBugs={false} bugDisplay={INTERVALS} />
                     {this.state.expanded ? elements : null}
                 </div>
             );
@@ -79,7 +88,7 @@ class ModuleTreeElement extends React.Component<TreeElementProps, State>  {
         const maxCvss = max(filteredScores);
 
         // @ts-ignore
-        if (this.props.filter.showAllModules && numErrors === 0) {
+        if (this.props.filter.showAllModules) {
             return element();
         }
         
@@ -95,6 +104,7 @@ class ModuleTreeElement extends React.Component<TreeElementProps, State>  {
 const mapStateToProps = (state: any, ownProps: TreeElementProps) => {
     return {
         filter: state.filter,
+        sorting: state.sort,
     };
 }
 
