@@ -5,7 +5,7 @@ services:
         build:
             context: ./client
             dockerfile: Dockerfile
-        image: sparta-frontend
+        image: vulnex-frontend
         ports:
             - "3001:80"
         security_opt:
@@ -16,7 +16,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        image: sparta-backend
+        image: vulnex-backend
         ports:
             - "3000:3000"
         security_opt:
