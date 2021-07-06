@@ -30,15 +30,6 @@ public class VulasDatabaseAdapter {
             "postgres",
             "postgres");
 
-    /*
-    private static final DatabaseConfig DATABASE_CONFIG = new DatabaseConfig(
-            "charon01.inf.uni-konstanz.de",
-            "8032",
-            "vulas",
-            "postgres",
-            "sparta");
-    */
-
     // Thread-safe initialization of singleton
     private static VulasDatabaseAdapter instance = new VulasDatabaseAdapter();
 
