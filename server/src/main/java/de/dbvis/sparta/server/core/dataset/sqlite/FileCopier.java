@@ -12,7 +12,6 @@ public class FileCopier {
     private static final Logger log = Logger.getLogger(FileCopier.class.getName());
 
     private static final String DATABASE_FILE = "sparta_database.db";
-    private static final String DATASET_SER_FILE = "dataset.ser";
 
     private static final int BUFFER_SIZE = 4096;
 
@@ -64,7 +63,6 @@ public class FileCopier {
 
     public static void copyFiles() {
         new FileCopier().copySingleFile(DATABASE_FILE);
-		new FileCopier().copySingleFile(DATASET_SER_FILE);
     }
 
 }

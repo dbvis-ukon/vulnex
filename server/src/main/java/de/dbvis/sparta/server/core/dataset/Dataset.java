@@ -1,5 +1,6 @@
 package de.dbvis.sparta.server.core.dataset;
 
+import de.dbvis.sparta.server.rest.model.basic.Module;
 import de.dbvis.sparta.server.rest.model.intersection.ReferencedItem;
 import de.dbvis.sparta.server.rest.model.basic.*;
 
@@ -13,10 +14,7 @@ import java.util.logging.Logger;
  * This class stores the dataset, i.e., representations of dependencies, bugs, vulnerabilities,
  * modules and repositories. It is used by the REST resource classes.
  */
-public abstract class Dataset implements Serializable {
-
-    private static final long serialVersionUID = 20201008L;
-    private static final String DATASET_SER = "dataset.ser";
+public abstract class Dataset {
 
     private static final Logger log = Logger.getLogger(Dataset.class.getName());
 
@@ -133,60 +131,6 @@ public abstract class Dataset implements Serializable {
         referencedFiles = rif.createReferencedFiles();
         referenceModules = rif.createReferencedModules();
         referencedRepository = rif.createReferencedRepositories();
-    }
-
-    protected void serialize() {
-        if (new File(DATASET_SER).exists()) {
-            log.info("Serialized data file " + DATASET_SER + " already exists.");
-            return;
-        }
-        try {
-            FileOutputStream fileOut = new FileOutputStream(DATASET_SER);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(this);
-            out.close();
-            fileOut.close();
-            log.info("Serialized data is saved in " + DATASET_SER + ".");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    protected boolean tryLoadFromSerializedDataFile() {
-        Dataset loaded = deserialize();
-        if (loaded == null) {
-            return false;
-        }
-        files = loaded.files;
-        bugs = loaded.bugs;
-        vulnerabilities = loaded.vulnerabilities;
-        bugIdSets = loaded.bugIdSets;
-        modules = loaded.modules;
-        repositories = loaded.repositories;
-        bugCounts = loaded.bugCounts;
-
-        referencedBugs = loaded.referencedBugs;
-        referencedFiles = loaded.referencedFiles;
-        referenceModules = loaded.referenceModules;
-        referencedRepository = loaded.referencedRepository;
-        return true;
-    }
-
-    private Dataset deserialize() {
-        log.info("Loading serialized data from " + DATASET_SER + ".");
-        Dataset dataset = null;
-        try {
-            FileInputStream fileIn = new FileInputStream(DATASET_SER);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            dataset = (Dataset) in.readObject();
-            in.close();
-            log.info("Data loaded from " + DATASET_SER + ".");
-        } catch (FileNotFoundException e) {
-            log.info("Serialized data file " + DATASET_SER + " not found.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return dataset;
     }
 
 }

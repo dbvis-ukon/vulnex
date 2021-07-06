@@ -3,6 +3,7 @@ package de.dbvis.sparta.server.core.dataset.sqlite;
 import de.dbvis.sparta.server.core.dataset.Dataset;
 import de.dbvis.sparta.server.core.dataset.sqlite.factories.*;
 import de.dbvis.sparta.server.rest.model.basic.*;
+import de.dbvis.sparta.server.rest.model.basic.Module;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ public class SqliteDataset extends Dataset {
     // Thread-safe initialization of singleton
     private static final SqliteDataset instance = new SqliteDataset();
 
-    private transient List<Module> plainModules;
+    private List<Module> plainModules;
 
     private SqliteDataset() {
         log.info("Instantiated cached dataset.");
@@ -34,10 +35,6 @@ public class SqliteDataset extends Dataset {
 
     @Override
     public Dataset initialize() {
-
-        if (tryLoadFromSerializedDataFile()) {
-            return this;
-        }
 
         log.info("Building data structures.");
 
@@ -63,8 +60,6 @@ public class SqliteDataset extends Dataset {
         initializeAllReferencedItems();
 
         log.info("All data structures ready.");
-
-        serialize();
 
         return this;
     }
