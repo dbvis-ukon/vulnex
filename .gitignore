@@ -5,3 +5,4 @@ server/.settings/
 
 server/target/
 db-importer/tmp.json
+server/sparta-server.iml
