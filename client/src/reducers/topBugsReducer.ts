@@ -3,11 +3,8 @@ export interface TopBugsAction {
   bugId: number;
 }
 
-// Bugs by apprearance
-// const START_STATE = [50, 51, 15, 14, 13];
-
 // Bugs by severity
-const START_STATE = [68, 70, 83, 98, 241];
+const START_STATE: number[] = [];
 
 const ADD_BUG = "ADD_BUG";
 const REMOVE_BUG = "REMOVE_BUG";

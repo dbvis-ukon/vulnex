@@ -32,7 +32,7 @@ export default class DataLoaderService {
     }
 
     public async loadBugCounts(): Promise<BugCount[]> {
-        const response = await fetch('http://' + HOST + ':' + PORT + '/api/bugs/counts');
+        const response = await fetch('http://' + HOST + ':' + PORT + '/api/bugs/count');
         const data = await response.json();
         return data;
     }
