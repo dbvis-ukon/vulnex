@@ -31,7 +31,7 @@ public class FileCopier {
     }
 
     private void copyExistingFile(String file) {
-        sourceUrl = FileCopier.class.getResource("/" + file);
+        sourceUrl = getClass().getClassLoader().getResource(file);
         try {
             openStreams();
             copyFileContent();

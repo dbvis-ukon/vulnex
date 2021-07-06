@@ -2,6 +2,7 @@ package de.dbvis.sparta.server.core.dataset;
 
 import de.dbvis.sparta.server.rest.model.ItemType;
 import de.dbvis.sparta.server.rest.model.basic.*;
+import de.dbvis.sparta.server.rest.model.basic.Module;
 import de.dbvis.sparta.server.rest.model.data.BugData;
 import de.dbvis.sparta.server.rest.model.data.LibraryFileData;
 import de.dbvis.sparta.server.rest.model.data.ModuleData;
