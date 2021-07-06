@@ -103,14 +103,8 @@ runVulasCheckerAndReporter() {
 	echo `pwd`
 	echo "Compiling with vulas:app."
 	timeout -k $TIMEOUT $TIMEOUT mvn -Dvulas compile vulas:app
-	echo "Running tests for tracing"
-	timeout -k $TIMEOUT_TRACE $TIMEOUT_TRACE mvn -Dvulas vulas:prepare-vulas-agent test vulas:upload
-	echo "Running vulas:t2c"
-	timeout -k $TIMEOUT_TRACE $TIMEOUT_TRACE mvn -Dvulas compile vulas:t2c
-	#echo "Running vulas:report."
-	#timeout -k $TIMEOUT $TIMEOUT mvn -Dvulas vulas:report
-	#echo "Creating dependency_tree.txt file."
-	#mvn dependency:tree -DoutputFile=./dependency_tree.txt
+	echo "Running vulas:report."
+	timeout -k $TIMEOUT $TIMEOUT mvn -Dvulas vulas:report
 }
 
 # Goes to every pom.xml of the directories, then injects the vulas
