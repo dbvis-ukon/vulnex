@@ -3,7 +3,6 @@ package de.dbvis.sparta.db.importer;
 import com.beust.jcommander.JCommander;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -26,7 +25,7 @@ public class Main {
 
         if (params.initialize) {
             log.info("Loading data from " + repoDir.getAbsolutePath() + ".");
-            new SqLiteImporter(repoDir).createDatabase();
+            new SqLiteImporter(repoDir).createAndFillMainTables();
         } else {
             log.info("Adding metainfo from to database in " + repoDir.getAbsolutePath() + ".");
             new SqLiteImporter(repoDir).createAndFillMetaInfoTable();

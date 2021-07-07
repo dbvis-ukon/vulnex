@@ -63,6 +63,8 @@ usage: $./crawler.sh [-adhprs]
 -t      Reset all pom.xml files
 ```
 
+To crawl LGTM information, you need to specify an API token in your environment variables, i.e., `LGTM_API_TOKEN='YOUR-LGTM-API-TOKEN'`.
+
 License
 -------------
 

@@ -12,35 +12,17 @@ import java.util.logging.Logger;
 
 public class LgtmInfoResolver {
 
-    private static final String LGTM_API_TOKEN = "f50a2814342df64be5ab803988fbcaceef5fc19cfb5bf80d6fc66b9fd09c0206";
-
+    private static final String LGTM_API_TOKEN = System.getenv("LGTM_API_TOKEN");
     private String repo;
-    private String commit;
 
     public LgtmInfoResolver(String repo) {
         this.repo = repo;
-    }
-
-    @Deprecated
-    public LgtmInfoResolver(String repo, String commit) {
-        this(repo);
-        this.commit = commit;
     }
 
     public LgtmInfo retrieveLgtmData() {
         try {
             String projectData = downloadData(buildProjectApiUrl());
             return LgtmInfo.createFromJsonString(repo, projectData);
-            /*
-            JSONParser jsonParser = new JSONParser();
-            JSONObject projectJson = (JSONObject) jsonParser.parse(projectData);
-            long projectId = (long) projectJson.get("id");
-            String commitData = downloadData(buildCommitApiUrl(projectId, commit));
-            LgtmInfo lgtmInfo = LgtmInfo.createFromJsonString(repo, commitData);
-            if (lgtmInfo == null) {
-                return LgtmInfo.createFromJsonString(repo, projectData);
-            }
-            */
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,14 +63,6 @@ public class LgtmInfoResolver {
 
     private String buildProjectApiUrl() {
         return "https://lgtm.com/api/v1.0/projects/g/eclipse/" + repo;
-    }
-
-    private String buildCommitApiUrl(long projectId, String commit) {
-        return "https://lgtm.com/api/v1.0/analyses/" + projectId + "/commits/" + commit;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new LgtmInfoResolver("deeplearning4j", "227dbd8e314cf28cc557a6cf1b4ee4051b7731b5").retrieveLgtmData());
     }
 
 }

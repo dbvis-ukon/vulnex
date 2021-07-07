@@ -42,7 +42,7 @@ public class SqLiteImporter {
         this.repoDir = repoDir;
     }
 
-    public void createDatabase() throws SQLException {
+    public void createAndFillMainTables() throws SQLException {
         createAllTables();
         iterateOverAllReportFiles();
     }
