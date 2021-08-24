@@ -68,10 +68,7 @@ class RepositoryTreeElement extends React.Component<TreeElementProps, State>  {
             }
     
             const graphSymbol = <IoIosGitNetwork onClick={handleGraphSymbolClick} />;
-    
-            const errorIcon = isErrorOn() ? <IoIosCloseCircle /> : <span className='EmptySymbol'></span>;
-
-    
+        
             const elements = filtered.map((e, i) => <TreeElement key={i} tableState={this.props.tableState} dataItems={this.props.dataItems.concat([e])} />);
             
             const indent = { margin: '0px 0px 0px ' + (this.props.dataItems.length === 1 ? 0 : 25) + 'px' }   
@@ -80,7 +77,7 @@ class RepositoryTreeElement extends React.Component<TreeElementProps, State>  {
                 <div style={indent}>
                     {expandSymbol} {graphSymbol}&nbsp;
                     <div style={{ display: 'inline', color: REPOSITORY_COLOR }}>
-                        {errorIcon} <IoIosApps />  {data.name}
+                        <IoIosApps /> {data.name}
                     </div>
                     <TableRowEntry itemType={ItemType.Repository} itemId={item.id} numChildren={elements.length} bugIds={item.refs.bugIds} showAllBugs={false} bugDisplay={INTERVALS} />
                     {this.state.expanded ? elements : null}
