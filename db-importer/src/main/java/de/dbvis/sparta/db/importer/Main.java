@@ -12,6 +12,11 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
+        SteadyImporter steadyImporter = new SteadyImporter();
+        steadyImporter.runSteadyImporter();
+
+        /*
+
         Parameters params = new Parameters();
         JCommander.newBuilder().addObject(params).build().parse(args);
 
@@ -30,6 +35,8 @@ public class Main {
             log.info("Adding metainfo from to database in " + repoDir.getAbsolutePath() + ".");
             new SqLiteImporter(repoDir).createAndFillMetaInfoTable();
         }
+
+        */
     }
 
     public static int randomInt(int min, int max) {

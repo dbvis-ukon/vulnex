@@ -1,32 +1,30 @@
-package de.dbvis.sparta.server.core.dataset.vulas;
+package de.dbvis.sparta.server.core.dataset.steady;
 
 import de.dbvis.sparta.server.core.dataset.Dataset;
-import de.dbvis.sparta.server.core.dataset.vulas.factories.BugFactory;
-import de.dbvis.sparta.server.core.dataset.vulas.factories.LibraryFileFactory;
-import de.dbvis.sparta.server.core.dataset.vulas.factories.ModuleFactory;
+import de.dbvis.sparta.server.core.dataset.steady.factories.BugFactory;
+import de.dbvis.sparta.server.core.dataset.steady.factories.LibraryFileFactory;
+import de.dbvis.sparta.server.core.dataset.steady.factories.ModuleFactory;
 import de.dbvis.sparta.server.rest.model.basic.LibraryFile;
 import de.dbvis.sparta.server.rest.model.basic.Module;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  * This class stores the dataset. The initialization method is tailored to the Vulas database from Eclipse Steady.
  */
-public class VulasDataset extends Dataset {
+public class SteadyDataset extends Dataset {
 
-    private static final Logger log = Logger.getLogger(VulasDataset.class.getName());
+    private static final Logger log = Logger.getLogger(SteadyDataset.class.getName());
 
     private static final VulasDatabaseAdapter databaseAdapter = VulasDatabaseAdapter.getInstance();
 
     // Thread-safe initialization of singleton
-    private static VulasDataset instance = new VulasDataset();
+    private static SteadyDataset instance = new SteadyDataset();
 
-    public static VulasDataset getInstance() {
+    public static SteadyDataset getInstance() {
         return instance;
     }
 

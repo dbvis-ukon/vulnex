@@ -1,13 +1,10 @@
-package de.dbvis.sparta.server.core.dataset.vulas;
+package de.dbvis.sparta.server.core.dataset.steady;
 
 import de.dbvis.sparta.db.connector.DbConnector;
 import de.dbvis.sparta.db.connector.PostgreSqlConnector;
-import de.dbvis.sparta.server.Constants;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 /**

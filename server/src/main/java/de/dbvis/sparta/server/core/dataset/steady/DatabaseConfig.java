@@ -1,4 +1,4 @@
-package de.dbvis.sparta.server.core.dataset.vulas;
+package de.dbvis.sparta.server.core.dataset.steady;
 
 import de.dbvis.sparta.server.rest.model.basic.Bug;
 

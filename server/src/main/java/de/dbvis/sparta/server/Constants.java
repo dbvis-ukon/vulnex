@@ -2,9 +2,7 @@ package de.dbvis.sparta.server;
 
 import de.dbvis.sparta.server.core.dataset.Dataset;
 import de.dbvis.sparta.server.core.dataset.sqlite.SqliteDataset;
-import de.dbvis.sparta.server.core.dataset.vulas.ApiConfig;
-import de.dbvis.sparta.server.core.dataset.vulas.DatabaseConfig;
-import de.dbvis.sparta.server.core.dataset.vulas.VulasDataset;
+import de.dbvis.sparta.server.core.dataset.steady.ApiConfig;
 
 /**
  * Contains all important constants.
@@ -22,8 +20,7 @@ public class Constants {
     /** API configuration **/
     public static final ApiConfig API_CONFIG = new ApiConfig(
             "localhost",
-            "8033",
-            "46464E25761F99038CA2BCB9DD8187BE"
+            "8033"
     );
 
     /** Data source **/
@@ -40,12 +37,17 @@ public class Constants {
             {
                     "Frederik L. Dennig",
                     "Research Associate - Data Analysis and Visualization",
-                    "https://www.vis.uni-konstanz.de/mitglieder/dennig/"
+                    "https://www.vis.uni-konstanz.de/en/members/dennig"
             },
             {
                     "Eren Cakmak",
                     "Research Associate - Data Analysis and Visualization",
-                    "https://www.vis.uni-konstanz.de/mitglieder/blumenschein/"
+                    "https://www.vis.uni-konstanz.de/en/members/cakmak"
+            },
+            {
+                    "Henrik Plate",
+                    "SAP Security Research",
+                    "https://people.sap.com/henrik.plate"
             },
             {
                     "Prof. Dr. Daniel A. Keim",

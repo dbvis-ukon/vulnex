@@ -1,9 +1,6 @@
-package de.dbvis.sparta.server.core.dataset.vulas.factories;
+package de.dbvis.sparta.server.core.dataset.steady.factories;
 
-import de.dbvis.sparta.server.core.dataset.sqlite.SqliteDataset;
-import de.dbvis.sparta.server.core.dataset.vulas.BugFilePair;
-import de.dbvis.sparta.server.core.dataset.vulas.VulasDatabaseAdapter;
-import de.dbvis.sparta.server.core.dataset.vulas.VulasDataset;
+import de.dbvis.sparta.server.core.dataset.steady.SteadyDataset;
 import de.dbvis.sparta.server.rest.model.basic.Bug;
 import de.dbvis.sparta.server.rest.model.basic.LibraryFile;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
@@ -13,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 public class BugFactory {
@@ -23,7 +19,7 @@ public class BugFactory {
     private List<LibraryFile> files;
 
     public BugFactory() {
-        this.files = VulasDataset.getInstance().getFiles();
+        this.files = SteadyDataset.getInstance().getFiles();
     }
 
     /**

@@ -1,4 +1,4 @@
-package de.dbvis.sparta.server.core.dataset.vulas.factories;
+package de.dbvis.sparta.server.core.dataset.steady.factories;
 
 import de.dbvis.sparta.server.rest.model.basic.Module;
 
