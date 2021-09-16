@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SteadyImporter {
 
-    private static final String STEADY_APP_GOAL = "org.eclipse.steady:plugin-maven:3.2.1-SNAPSHOT:app";
+    private static final String STEADY_APP_GOAL = "org.eclipse.steady:plugin-maven:3.2.0:app";
     private static final String REPOSITORIES_FILE = "./repos.txt";
     private static final String REPOSITORIES_DIR = "./vulnex/";
     private static final String STEADY_REST_API = "http://localhost:8033/backend/";
@@ -128,7 +128,7 @@ public class SteadyImporter {
 
     private void performSteadyScanForPomFile(final String spaceToken, final File pomFile) throws IOException, InterruptedException, ParserConfigurationException, SAXException {
         MavenIdentifier mavenIdentifier = extractMavenIdentifier(pomFile.getPath());
-        String directoryPath = pomFile.getParentFile().getPath();
+        String directoryPath = pomFile.getParentFile().getAbsolutePath();
         createSteadyPropertiesFile(directoryPath, spaceToken, mavenIdentifier);
         runSteadyScan(directoryPath);
     }
@@ -153,16 +153,7 @@ public class SteadyImporter {
         stringBuilder.append("vulas.core.space.token = ");
         stringBuilder.append(spaceToken);
         stringBuilder.append('\n');
-        stringBuilder.append("vulas.core.appContext.group = ");
-        stringBuilder.append(mavenIdentifier.getGroupId());
-        stringBuilder.append('\n');
-        stringBuilder.append("vulas.core.appContext.artifact = ");
-        stringBuilder.append(mavenIdentifier.getArtifactId());
-        stringBuilder.append('\n');
-        stringBuilder.append("vulas.core.appContext.version = ");
-        stringBuilder.append(mavenIdentifier.getVersion());
-        stringBuilder.append('\n');
-        stringBuilder.append("vulas.shared.backend.serviceUrl = http://localhost:8033/backend/");
+        stringBuilder.append("vulas.shared.backend.serviceUrl = http://localhost:8033/backend/\n");
         PrintWriter printWriter = new PrintWriter(directoryPath + "/vulas-custom.properties");
         printWriter.print(stringBuilder.toString());
         printWriter.flush();
@@ -171,8 +162,10 @@ public class SteadyImporter {
 
     private void runSteadyScan(final String directoryPath) throws IOException, InterruptedException {
         Runtime runtime = Runtime.getRuntime();
-        Process process = runtime.exec("cmd /c mvn compile " + STEADY_APP_GOAL, null, new File(directoryPath));
-        if (process.waitFor(10, TimeUnit.MINUTES)) {
+        String command = "bash -c '( cd " + directoryPath + " && mvn compile " + STEADY_APP_GOAL + " )'";
+        System.out.println(command);
+        Process process = runtime.exec(command);
+        if (process.waitFor(1, TimeUnit.HOURS)) {
             System.out.println("Excited!");
         } else {
             System.out.println("Interrupted!");

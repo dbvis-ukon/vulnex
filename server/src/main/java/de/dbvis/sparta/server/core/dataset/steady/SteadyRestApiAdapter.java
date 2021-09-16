@@ -36,7 +36,6 @@ public class SteadyRestApiAdapter {
             result.add(new SteadySpace(spaceToken, spaceName));
         }
         return result;
-
     }
 
     public void retrieveApps(final String spaceToken) {
