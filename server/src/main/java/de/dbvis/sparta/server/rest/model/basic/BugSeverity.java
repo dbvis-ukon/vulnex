@@ -58,4 +58,13 @@ public class BugSeverity implements Serializable {
         this.severity = severity;
     }
 
+    @Override
+    public String toString() {
+        return BugSeverity.class.getName() + "[\n"
+                + "  bugId: " + bugId + ",\n"
+                + "  bugName: " + bugName + ",\n"
+                + "  severity: " + severity + "\n"
+                + "]";
+    }
+
 }

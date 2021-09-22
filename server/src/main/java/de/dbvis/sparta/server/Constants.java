@@ -3,6 +3,7 @@ package de.dbvis.sparta.server;
 import de.dbvis.sparta.server.core.dataset.Dataset;
 import de.dbvis.sparta.server.core.dataset.sqlite.SqliteDataset;
 import de.dbvis.sparta.server.core.dataset.steady.ApiConfig;
+import de.dbvis.sparta.server.core.dataset.steady.SteadyDataset;
 
 /**
  * Contains all important constants.
@@ -24,8 +25,8 @@ public class Constants {
     );
 
     /** Data source **/
-    //public static final Dataset DATASET = VulasDataset.getInstance();
-    public static final Dataset DATASET = SqliteDataset.getInstance();
+    public static final Dataset DATASET = SteadyDataset.getInstance();
+    //public static final Dataset DATASET = SqliteDataset.getInstance();
 
     /*
      * Application and authorship information

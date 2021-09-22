@@ -1,15 +1,12 @@
 package de.dbvis.sparta.server.core.dataset.steady;
 
 import de.dbvis.sparta.server.core.dataset.Dataset;
-import de.dbvis.sparta.server.core.dataset.steady.factories.BugFactory;
-import de.dbvis.sparta.server.core.dataset.steady.factories.LibraryFileFactory;
-import de.dbvis.sparta.server.core.dataset.steady.factories.ModuleFactory;
-import de.dbvis.sparta.server.rest.model.basic.LibraryFile;
-import de.dbvis.sparta.server.rest.model.basic.Module;
+import de.dbvis.sparta.server.rest.model.basic.Bug;
+import de.dbvis.sparta.server.rest.model.basic.BugCount;
+import de.dbvis.sparta.server.rest.model.basic.Vulnerability;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -19,7 +16,7 @@ public class SteadyDataset extends Dataset {
 
     private static final Logger log = Logger.getLogger(SteadyDataset.class.getName());
 
-    private static final VulasDatabaseAdapter databaseAdapter = VulasDatabaseAdapter.getInstance();
+    private static final SteadyRestApiAdapter databaseAdapter = SteadyRestApiAdapter.getInstance();
 
     // Thread-safe initialization of singleton
     private static SteadyDataset instance = new SteadyDataset();
@@ -30,31 +27,50 @@ public class SteadyDataset extends Dataset {
 
     @Override
     public Dataset initialize() {
-        log.info("Building data structures.");
+        try {
+            log.info("Building data structures.");
 
-        Map<String, LibraryFile> fileMap =
-                new LibraryFileFactory().createFilesFromCachedResult(databaseAdapter.retrieveAllLibrariesAsCachedResult());
-        files = new ArrayList<>(fileMap.values());
-        bugs = new BugFactory().createBugsFromCachedResult(databaseAdapter.retrieveAllBugsAsCachedResult(), fileMap);
+            SteadyRestApiAdapter steadyRestApiAdapter = SteadyRestApiAdapter.getInstance();
+            steadyRestApiAdapter.retrieveData();
 
-        // Link files with bugs (reference by ID)
-        updateFilesWithBugIds();
+            files = steadyRestApiAdapter.getFiles();
 
-        // TODO Load vulnerabilities
-        vulnerabilities = null;
+            bugs = steadyRestApiAdapter.getBugs();
 
-        bugIdSets = null;
+            // Link files with bugs (reference by ID)
+            updateFilesWithBugIds();
 
-        List<Module> plainModules = new ModuleFactory().createPlainModulesFromCachedResult(databaseAdapter.retrieveAllPlainModulesAsCachedResult());
+            vulnerabilities = steadyRestApiAdapter.getVulnerabilities();
 
-        // TODO Load modules
-        modules = null;
+            modules = steadyRestApiAdapter.getModules();
 
-        // TODO Load bug counts
-        bugCounts = null;
+            bugIdSets = createBugIdSetsForAllModules(modules, vulnerabilities);
 
-        log.info("All data structures ready.");
+            repositories = steadyRestApiAdapter.getRepositories();
+
+            bugCounts = createBugCounts(bugs, vulnerabilities);
+
+            log.info("Basic data structure is ready.");
+
+            initializeAllReferencedItems();
+
+            log.info("All data structures ready.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return this;
+    }
+
+    private List<BugCount> createBugCounts(List<Bug> bugs, List<Vulnerability> vulnerabilities) {
+        List<BugCount> result = new ArrayList<BugCount>();
+        for (Bug b : bugs) {
+            long count = vulnerabilities.stream()
+                    .filter(e -> e.getBug().getId() == b.getId())
+                    .count();
+            new BugCount(b.getId(), b.getName(), (int) count);
+        }
+        return result;
     }
 
 }

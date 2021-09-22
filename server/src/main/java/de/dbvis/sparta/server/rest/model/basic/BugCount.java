@@ -58,4 +58,12 @@ public class BugCount implements Serializable {
         this.count = count;
     }
 
+    @Override
+    public String toString() {
+        return BugCount.class.getName() + "[\n"
+                + "  bugId: " + bugId + ",\n"
+                + "  bugName: " + bugName + ",\n"
+                + "  count: " + count + "\n"
+                + "]";
+    }
 }

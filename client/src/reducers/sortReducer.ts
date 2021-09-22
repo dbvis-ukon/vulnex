@@ -90,12 +90,14 @@ export const applyDescendingMinCvssSorting = (): SortAction => {
   };
 };
 
-const maxScoreFunc = (r: ReferencedItem) =>
-  Math.max(
+const maxScoreFunc = (r: ReferencedItem) => {
+    console.log(DataStorageService.getInstance().getBugsWithIds(r.refs.bugIds));  
+    return Math.max(
     ...DataStorageService.getInstance()
       .getBugValuesWithIds(r.refs.bugIds, (b) => b.cvssScore)
-      .filter((e) => e !== -1)
-  );
+      .filter((e) => e !== -1));
+
+  }
 
 export const applyAscendingMaxCvssSorting = (): SortAction => {
   return {

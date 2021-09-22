@@ -52,7 +52,8 @@ class TreeView extends React.Component<Props, State>  {
         if (!this.state.dataAvailable) {
             return null;
         }
-        // @ts-ignore
+        console.log(this.determineRootDataItems());
+        // @ts-ignore    
         const items = this.determineRootDataItems().filter(e => e.data.name.includes(this.props.search));
         if (this.props.tableState === BUG_TABLE) {
             // @ts-ignore

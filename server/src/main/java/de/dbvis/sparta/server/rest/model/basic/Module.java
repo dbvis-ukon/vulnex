@@ -3,6 +3,7 @@ package de.dbvis.sparta.server.rest.model.basic;
 import de.dbvis.sparta.server.rest.model.DataItem;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -40,6 +41,17 @@ public class Module extends DataItem implements Serializable {
 
     public Module() {
 
+    }
+
+    public Module(int id,
+                  String groupId,
+                  String artifactId,
+                  String version) {
+        super(id);
+        this.subModules = new ArrayList<Module>();
+        this.groupId = groupId;
+        this.artifactId = artifactId;
+        this.version = version;
     }
 
     public Module(int id,
@@ -96,7 +108,7 @@ public class Module extends DataItem implements Serializable {
 
     @Override
     public String toString() {
-        return Bug.class.getName() + "[\n"
+        return Module.class.getName() + "[\n"
                 + "  id: " + getId() + ",\n"
                 + "  subModules: " + (subModules == null ? null : subModules.size()) + ",\n"
                 + "  groupId: " + groupId + ",\n"
@@ -114,7 +126,9 @@ public class Module extends DataItem implements Serializable {
             return false;
         }
         Module module = (Module) other;
-        return this.getId() == module.getId();
+        return this.groupId.equals(module.groupId) &&
+                this.artifactId.equals(module.artifactId) &&
+                this.version.equals(module.version);
     }
 
 }

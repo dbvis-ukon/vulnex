@@ -1,6 +1,7 @@
 package de.dbvis.sparta.server.core.dataset.sqlite;
 
 import de.dbvis.sparta.server.core.dataset.Dataset;
+import de.dbvis.sparta.server.core.dataset.ModuleListFlattener;
 import de.dbvis.sparta.server.core.dataset.sqlite.factories.*;
 import de.dbvis.sparta.server.rest.model.basic.*;
 import de.dbvis.sparta.server.rest.model.basic.Module;
@@ -47,7 +48,7 @@ public class SqliteDataset extends Dataset {
         updateFilesWithBugIds();
 
         vulnerabilities = new VulnerabilityFactory().createVulnerabilitiesFromCachedResult(databaseAdapter.retrieveAllVulnerabilitiesAsCachedResult());
-        bugIdSets = new ModuleInfoFactory().createBugIdSetsForAllModules();
+        bugIdSets = createBugIdSetsForAllModules(new ModuleListFlattener(plainModules).flatten(), vulnerabilities);
         modules = new ModuleFactory().createModules();
 
         repositories = new RepositoryFactory().createReportsFromCachedResult(
@@ -72,7 +73,6 @@ public class SqliteDataset extends Dataset {
                 result.add(new BugCount(cachedRowSet.getInt(1),
                         cachedRowSet.getString(2),
                         cachedRowSet.getInt(3)));
-
             }
             return result;
         } catch (SQLException e) {

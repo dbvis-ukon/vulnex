@@ -17,6 +17,11 @@ public class RepositoryData implements Serializable {
 
     }
 
+    public RepositoryData(String name) {
+        this.name = name;
+        this.metaInfo = new MetaInfoData();
+    }
+
     public RepositoryData(String name,
                           MetaInfoData metaInfo) {
         this.name = name;

@@ -9,6 +9,7 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * This class stores the dataset, i.e., representations of dependencies, bugs, vulnerabilities,
@@ -125,6 +126,21 @@ public abstract class Dataset {
         });
     }
 
+    protected List<Set<Integer>> createBugIdSetsForAllModules(List<Module> modules,
+                                                              List<Vulnerability> vulnerabilities) {
+        List<Set<Integer>> result = new ArrayList<Set<Integer>>(modules.size());
+        for (Module m : modules) {
+            List<Vulnerability> moduleVulnerabilities = vulnerabilities.stream()
+                    .filter(e -> e.getModule() == m)
+                    .collect(Collectors.toList());
+            Set<Integer> bugIds = new HashSet<Integer>();
+            for (Vulnerability v : moduleVulnerabilities) {
+                bugIds.add(v.getBug().getId());
+            }
+            result.add(bugIds);
+        }
+        return result;
+    }
     protected void initializeAllReferencedItems() {
         ReferencedItemFactory rif = new ReferencedItemFactory(bugs, files, modules, repositories, vulnerabilities);
         referencedBugs = rif.createReferencedBugs();

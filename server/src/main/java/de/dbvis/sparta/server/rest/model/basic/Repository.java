@@ -22,7 +22,7 @@ public class Repository extends DataItem implements Serializable {
     private RepositoryData data;
 
     /**
-     * The set present bugs referenced by their IDs.
+     * The set of present bugs referenced by their IDs.
      */
     private Set<Integer> bugIds;
 
@@ -60,6 +60,14 @@ public class Repository extends DataItem implements Serializable {
 
     public void setBugIds(Set<Integer> bugIds) {
         this.bugIds = bugIds;
+    }
+
+    @Override
+    public String toString() {
+        return Repository.class.getName() + "[\n"
+                + "  id: " + getId() + ",\n"
+                + "  data.name: " + data.getName() + "\n"
+                + "]";
     }
 
     @Override

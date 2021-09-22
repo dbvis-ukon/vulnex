@@ -16,6 +16,14 @@ public class MetaInfoData implements Serializable {
 
     private int githubWatchers;
 
+    public MetaInfoData() {
+        this.lgtmAlerts = -1;
+        this.lgtmGrade = null;
+        this.githubIssues = -1;
+        this.githubStars = -1;
+        this.githubWatchers = -1;
+    }
+
     public MetaInfoData(int lgtmAlerts,
                         String lgtmGrade,
                         int githubIssues,
