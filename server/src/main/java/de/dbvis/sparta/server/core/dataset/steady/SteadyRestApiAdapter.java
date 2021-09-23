@@ -37,6 +37,10 @@ public class SteadyRestApiAdapter {
      * Constructs a SteadyRestApiAdapter.
      */
     private SteadyRestApiAdapter() {
+        reset();
+    }
+
+    private void reset() {
         files = new ArrayList<LibraryFile>();
         bugs = new ArrayList<Bug>();
         vulnerabilities = new ArrayList<Vulnerability>();
@@ -73,6 +77,7 @@ public class SteadyRestApiAdapter {
     }
 
     public void retrieveData() throws IOException, ParseException{
+        reset();
         for (SteadySpace space : retrieveSpaces()) {
             if (space.isEnabled()) {
                 parseAppsIncludingBugs(space, retrieveAppsIncludingBugs(space));
@@ -184,16 +189,6 @@ public class SteadyRestApiAdapter {
         String cvssVector = (String) bug.get("cvssVector");
         String cvssVersion = (String) bug.get("cvssVersion");
         return new Bug(bugs.size(), file, bugId, description, cvssScore, cvssVector, cvssVersion);
-    }
-
-    public static void main(String[] args) throws Exception {
-        SteadyRestApiAdapter steadyRestApiAdapter = new SteadyRestApiAdapter();
-        steadyRestApiAdapter.retrieveData();
-        //System.out.println(steadyRestApiAdapter.repositories);
-        //System.out.println(steadyRestApiAdapter.files);
-        System.out.println(steadyRestApiAdapter.bugs);
-        System.out.println(steadyRestApiAdapter.vulnerabilities);
-        //System.out.println(steadyRestApiAdapter.modules);
     }
 
 }

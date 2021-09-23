@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Button, Modal, Navbar as Bar } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { chooseRepositoryTable, chooseLibraryTable, chooseBugTable, REPOSITORY_TABLE, LIBRARY_TABLE, BUG_TABLE, GRAPH_VIEW } from 'reducers/viewChoiceReducer';
+import DataLoaderService from 'service/dataLoaderService';
 
 interface Props {
     viewChoice: string
@@ -37,6 +38,11 @@ class Navbar extends React.Component<Props, State>  {
         const handleBugTableButtonClick = () => {
             //@ts-ignore
             this.props.updateToBugTable();
+        }
+
+        const handleReloadButtonClick = () => {
+            const dataPromise = DataLoaderService.getInstance().reloadDataset();
+            dataPromise.then(() => window.location.reload());
         }
 
         const handleAboutButtonClick = () => {
@@ -190,6 +196,8 @@ class Navbar extends React.Component<Props, State>  {
                     <div style={{ width: '20px' }}></div>
                     <Button variant={this.props.viewChoice === BUG_TABLE ? 'danger' : 'secondary'} onClick={handleBugTableButtonClick}>Bug Table</Button>
                     <div style={{ width: '400px' }}></div>
+                    <Button variant='outline-light' onClick={handleReloadButtonClick}>Reload Data</Button>
+                    <div style={{ width: '20px' }}></div>
                     <Button variant='outline-light' onClick={handleAboutButtonClick}>About</Button>
                     <div style={{ width: '20px' }}></div>
                     <Button variant='outline-light' onClick={handleDataProtectionButtonClick}>Data Protection</Button>

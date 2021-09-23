@@ -110,4 +110,10 @@ export default class DataLoaderService {
         return data;
     }
 
+    public async reloadDataset(): Promise<any> {
+        const response = await fetch('http://' + HOST + ':' + PORT + '/api/dataset/reload');
+        const data = await response.json();
+        return data;
+    }
+
 }

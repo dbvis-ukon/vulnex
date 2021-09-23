@@ -82,7 +82,7 @@ public class LibraryFile extends DataItem implements Serializable {
             return false;
         }
         LibraryFile file = (LibraryFile) other;
-        return this.sha1.equals(file.sha1);
+        return this.name.equals(file.name);
     }
 
 }
