@@ -18,7 +18,7 @@ public class MetaInfoData implements Serializable {
 
     public MetaInfoData() {
         this.lgtmAlerts = -1;
-        this.lgtmGrade = null;
+        this.lgtmGrade = "-";
         this.githubIssues = -1;
         this.githubStars = -1;
         this.githubWatchers = -1;

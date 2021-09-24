@@ -17,6 +17,7 @@ services:
             context: .
             dockerfile: Dockerfile
         image: vulnex-backend
+        env_file: .env
         ports:
             - "3000:3000"
         security_opt:

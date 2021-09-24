@@ -1,5 +1,6 @@
 package de.dbvis.sparta.server.core.dataset.steady;
 
+import de.dbvis.sparta.server.Constants;
 import de.dbvis.sparta.server.rest.model.basic.*;
 import de.dbvis.sparta.server.rest.model.basic.Module;
 import de.dbvis.sparta.server.rest.model.data.RepositoryData;
@@ -19,8 +20,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class SteadyRestApiAdapter {
-
-    private static final String HOST = "https://eclipsesteady.dbvis.de/backend/";
 
     private static final Logger log = Logger.getLogger(SteadyRestApiAdapter.class.getName());
 
@@ -87,7 +86,7 @@ public class SteadyRestApiAdapter {
 
     private List<SteadySpace> retrieveSpaces() throws IOException, ParseException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(HOST + "spaces");
+        HttpGet httpGet = new HttpGet(Constants.STEADY_BACKEND + "/spaces");
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
         String responseBody = EntityUtils.toString(httpResponse.getEntity());
         httpResponse.close();
@@ -111,7 +110,7 @@ public class SteadyRestApiAdapter {
     }
 
     private String retrieveAppsIncludingBugs(SteadySpace steadySpace) throws IOException {
-        final String url = HOST + "spaces/" + steadySpace.getSpaceToken() + "/apps?includeBugs=true";
+        final String url = Constants.STEADY_BACKEND + "/spaces/" + steadySpace.getSpaceToken() + "/apps?includeBugs=true";
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);

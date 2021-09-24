@@ -2,6 +2,8 @@ package de.dbvis.sparta.server;
 
 import de.dbvis.sparta.server.core.dataset.Dataset;
 import de.dbvis.sparta.server.core.dataset.sqlite.FileCopier;
+import de.dbvis.sparta.server.core.dataset.sqlite.SqliteDataset;
+import de.dbvis.sparta.server.core.dataset.steady.SteadyDataset;
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -50,10 +52,14 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         log.info("Starting up.");
-		// Copy the files to make them accessible
-        FileCopier.copyFiles();
-        Dataset dataset = Constants.DATASET.initialize();
-        log.info("Loaded dataset: " + dataset.getClass().getSimpleName());
+        log.info("STEADY_BACKEND=" + Constants.STEADY_BACKEND + "\nDEMO_MODE=" + Constants.DEMO_MODE);
+        if (Constants.DEMO_MODE) {
+            // Copy the files to make them accessible
+            FileCopier.copyFiles();
+        }
+        Constants.DATASET = Constants.DEMO_MODE ? SqliteDataset.getInstance() : SteadyDataset.getInstance();
+        Constants.DATASET.initialize();
+        log.info("Loaded dataset: " + Constants.DATASET.getClass().getSimpleName());
         final HttpServer server = startServer();
         log.info(String.format("Jersey app started with WADL available at " + "%sapplication.wadl", Constants.API_BASE_URI));
         //log.info(String.format("Jersey app started with WADL available at " + "%sapplication.wadl\nHit enter to stop it...", Constants.API_BASE_URI));

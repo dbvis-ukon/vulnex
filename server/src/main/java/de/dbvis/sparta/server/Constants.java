@@ -2,7 +2,6 @@ package de.dbvis.sparta.server;
 
 import de.dbvis.sparta.server.core.dataset.Dataset;
 import de.dbvis.sparta.server.core.dataset.sqlite.SqliteDataset;
-import de.dbvis.sparta.server.core.dataset.steady.ApiConfig;
 import de.dbvis.sparta.server.core.dataset.steady.SteadyDataset;
 
 /**
@@ -18,15 +17,11 @@ public class Constants {
     public static final String API_BASE_URI = "http://0.0.0.0:3000/api/";
     public static final String REST_RESOURCES = "de.dbvis.sparta.server.rest.resources";
 
-    /** API configuration **/
-    public static final ApiConfig API_CONFIG = new ApiConfig(
-            "localhost",
-            "8033"
-    );
+    public static final String STEADY_BACKEND = System.getenv("STEADY_BACKEND");
+    public static final boolean DEMO_MODE = Boolean.parseBoolean(System.getenv("DEMO_MODE"));
 
     /** Data source **/
-    public static final Dataset DATASET = SteadyDataset.getInstance();
-    //public static final Dataset DATASET = SqliteDataset.getInstance();
+    public static Dataset DATASET = null;
 
     /*
      * Application and authorship information

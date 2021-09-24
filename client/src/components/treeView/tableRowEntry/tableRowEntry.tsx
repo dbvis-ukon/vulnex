@@ -124,9 +124,9 @@ class TableRowEntry extends React.Component<Props, State>  {
                 <div className="MetaInfoContainer">
                     {repo.data.metaInfo.lgtmGrade === '-' ? <div className="ScoreEmpty"></div> : <div className='MetaInfoEntry' style={{backgroundColor: lgtmGradeColor(repo.data.metaInfo.lgtmGrade)}}>{repo.data.metaInfo.lgtmGrade}</div>}
                     {repo.data.metaInfo.lgtmAlerts === -1 ? <div className="ScoreEmpty" style={{marginRight: '13px'}}></div> : <div className='MetaInfoEntry' style={{marginRight: '8px'}}>{repo.data.metaInfo.lgtmAlerts}</div>}
-                    {<div className='MetaInfoEntry'>{formatBigNumber(repo.data.metaInfo.githubIssues)}</div>}
-                    {<div className='MetaInfoEntry'>{formatBigNumber(repo.data.metaInfo.githubStars)}</div>}
-                    {<div className='MetaInfoEntry'>{formatBigNumber(repo.data.metaInfo.githubWatchers)}</div>}
+                    {repo.data.metaInfo.githubIssues === -1 ? <div className="ScoreEmpty" style={{marginRight: '13px'}}></div> : <div className='MetaInfoEntry'>{formatBigNumber(repo.data.metaInfo.githubIssues)}</div>}
+                    {repo.data.metaInfo.githubStars === -1 ? <div className="ScoreEmpty" style={{marginRight: '13px'}}></div> : <div className='MetaInfoEntry'>{formatBigNumber(repo.data.metaInfo.githubStars)}</div>}
+                    {repo.data.metaInfo.githubWatchers === -1 ? <div className="ScoreEmpty" style={{marginRight: '13px'}}></div> : <div className='MetaInfoEntry'>{formatBigNumber(repo.data.metaInfo.githubWatchers)}</div>}
                 </div>
             );
         }
