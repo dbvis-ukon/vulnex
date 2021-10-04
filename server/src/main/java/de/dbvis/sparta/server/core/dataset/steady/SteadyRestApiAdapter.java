@@ -184,9 +184,18 @@ public class SteadyRestApiAdapter {
     private Bug createBug(JSONObject bug, LibraryFile file) {
         String bugId = (String) bug.get("bugId");
         String description = (String) bug.get("description");
-        double cvssScore = (double) bug.get("cvssScore");
-        String cvssVector = (String) bug.get("cvssVector");
-        String cvssVersion = (String) bug.get("cvssVersion");
+        double cvssScore = -1.0d;
+        if (bug.containsKey("cvssScore")) {
+            cvssScore = (double) bug.get("cvssScore");
+        }
+        String cvssVector = "";
+        if (bug.containsKey("cvssVector")) {
+            cvssVector = (String) bug.get("cvssVector");
+        }
+        String cvssVersion = "";
+        if (bug.containsKey("cvssVersion")) {
+            cvssVersion = (String) bug.get("cvssVersion");
+        }
         return new Bug(bugs.size(), file, bugId, description, cvssScore, cvssVector, cvssVersion);
     }
 
