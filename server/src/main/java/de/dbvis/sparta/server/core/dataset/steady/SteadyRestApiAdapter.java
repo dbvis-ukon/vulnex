@@ -1,9 +1,10 @@
 package de.dbvis.sparta.server.core.dataset.steady;
 
-import de.dbvis.sparta.server.Constants;
-import de.dbvis.sparta.server.rest.model.basic.*;
-import de.dbvis.sparta.server.rest.model.basic.Module;
-import de.dbvis.sparta.server.rest.model.data.RepositoryData;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -14,10 +15,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
+import de.dbvis.sparta.server.Constants;
+import de.dbvis.sparta.server.rest.model.basic.Bug;
+import de.dbvis.sparta.server.rest.model.basic.LibraryFile;
+import de.dbvis.sparta.server.rest.model.basic.Module;
+import de.dbvis.sparta.server.rest.model.basic.Repository;
+import de.dbvis.sparta.server.rest.model.basic.Vulnerability;
+import de.dbvis.sparta.server.rest.model.data.RepositoryData;
 
 public class SteadyRestApiAdapter {
 
@@ -185,15 +189,15 @@ public class SteadyRestApiAdapter {
         String bugId = (String) bug.get("bugId");
         String description = (String) bug.get("description");
         double cvssScore = -1.0d;
-        if (bug.containsKey("cvssScore")) {
+        if (bug.get("cvssScore") != null) {
             cvssScore = (double) bug.get("cvssScore");
         }
         String cvssVector = "";
-        if (bug.containsKey("cvssVector")) {
+        if (bug.get("cvssVector") != null) {
             cvssVector = (String) bug.get("cvssVector");
         }
         String cvssVersion = "";
-        if (bug.containsKey("cvssVersion")) {
+        if (bug.get("cvssVersion") != null) {
             cvssVersion = (String) bug.get("cvssVersion");
         }
         return new Bug(bugs.size(), file, bugId, description, cvssScore, cvssVector, cvssVersion);
