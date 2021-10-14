@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import de.dbvis.sparta.server.rest.model.basic.*;
+import de.dbvis.sparta.server.rest.model.basic.Module;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -16,11 +18,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import de.dbvis.sparta.server.Constants;
-import de.dbvis.sparta.server.rest.model.basic.Bug;
-import de.dbvis.sparta.server.rest.model.basic.LibraryFile;
-import de.dbvis.sparta.server.rest.model.basic.Module;
-import de.dbvis.sparta.server.rest.model.basic.Repository;
-import de.dbvis.sparta.server.rest.model.basic.Vulnerability;
 import de.dbvis.sparta.server.rest.model.data.RepositoryData;
 
 public class SteadyRestApiAdapter {
@@ -132,7 +129,6 @@ public class SteadyRestApiAdapter {
 
         for (Object o : jsonArray) {
             JSONObject jsonObject = (JSONObject) o;
-            JSONObject workspace = (JSONObject) jsonObject.get("workspace");
 
             JSONObject app = (JSONObject) jsonObject.get("app");
             Module module = createModule(app);
@@ -151,8 +147,20 @@ public class SteadyRestApiAdapter {
                 Bug bug = createBug(jsonBug, file);
                 bug = addOrFindInList(bug, bugs);
 
-                Vulnerability vulnerability = new Vulnerability(vulnerabilities.size(), bug, module);
-                addOrFindInList(vulnerability, vulnerabilities);
+                boolean affectedVersion = ((Long) vulDep.get("affected_version")).intValue() == 1;
+                boolean affectedVersionConfirmed = ((Long) vulDep.get("affected_version_confirmed")).intValue() == 1;
+                AffectedState affectedState = AffectedState.UNKNOWN;
+                if (affectedVersion && affectedVersionConfirmed) {
+                    affectedState = AffectedState.TRUE;
+                } else if (!affectedVersion && affectedVersionConfirmed) {
+                    affectedState = AffectedState.FALSE;
+                }
+
+                if (affectedState == AffectedState.TRUE) {
+                    Vulnerability vulnerability = new Vulnerability(vulnerabilities.size(), bug, module, affectedState);
+                    addOrFindInList(vulnerability, vulnerabilities);
+                }
+
             }
         }
         Repository repository = new Repository(
@@ -163,7 +171,7 @@ public class SteadyRestApiAdapter {
     }
 
     private static <T> T addOrFindInList(T element, List<T> list) {
-        T result = list.stream().filter(e -> e == element).findFirst().orElse(null);
+        T result = list.stream().filter(e -> e.equals(element)).findFirst().orElse(null);
         if (result == null) {
             list.add(element);
             return element;
