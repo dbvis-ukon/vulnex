@@ -147,15 +147,7 @@ public class SteadyRestApiAdapter {
                 Bug bug = createBug(jsonBug, file);
                 bug = addOrFindInList(bug, bugs);
 
-                boolean affectedVersion = ((Long) vulDep.get("affected_version")).intValue() == 1;
-                boolean affectedVersionConfirmed = ((Long) vulDep.get("affected_version_confirmed")).intValue() == 1;
-                AffectedState affectedState = AffectedState.UNKNOWN;
-                if (affectedVersion && affectedVersionConfirmed) {
-                    affectedState = AffectedState.TRUE;
-                } else if (!affectedVersion && affectedVersionConfirmed) {
-                    affectedState = AffectedState.FALSE;
-                }
-
+                AffectedState affectedState = determineAffectedState(vulDep);
                 if (affectedState == AffectedState.TRUE) {
                     Vulnerability vulnerability = new Vulnerability(vulnerabilities.size(), bug, module, affectedState);
                     addOrFindInList(vulnerability, vulnerabilities);
@@ -168,6 +160,18 @@ public class SteadyRestApiAdapter {
                 parentModules,
                 new RepositoryData(steadySpace.getSpaceName()));
         repositories.add(repository);
+    }
+
+    private AffectedState determineAffectedState(JSONObject vulDep) {
+        boolean affectedVersion = ((Long) vulDep.get("affected_version")).intValue() == 1;
+        boolean affectedVersionConfirmed = ((Long) vulDep.get("affected_version_confirmed")).intValue() == 1;
+        AffectedState affectedState = AffectedState.UNKNOWN;
+        if (affectedVersion && affectedVersionConfirmed) {
+            affectedState = AffectedState.TRUE;
+        } else if (!affectedVersion && affectedVersionConfirmed) {
+            affectedState = AffectedState.FALSE;
+        }
+        return affectedState;
     }
 
     private static <T> T addOrFindInList(T element, List<T> list) {
