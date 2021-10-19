@@ -195,7 +195,7 @@ class TableRowEntry extends React.Component<Props, State>  {
                 <div className='TopBugs'>
                     <ActiveBugsEntry bugIds={this.props.bugIds} topBugIds={[]} />
                 </div>
-                {isRepository() ? drawRepoMetaInfo() : null}
+                {/*isRepository() ? drawRepoMetaInfo() : null*/}
             </div>
         );
     }

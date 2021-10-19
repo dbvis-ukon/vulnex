@@ -165,6 +165,7 @@ class TableRowHeader extends React.Component<Props, State>  {
                     } />
                 </div>
 
+                {/*
                 <div className='MetaInfoLabelHeader'
                     onMouseMove={
                         //@ts-ignore
@@ -178,6 +179,7 @@ class TableRowHeader extends React.Component<Props, State>  {
                     {lgtmMetaInfoLabelElements}
                     {gitHubMetaInfoLabelElements}
                 </div>
+                */}
             </div>
         );
     }

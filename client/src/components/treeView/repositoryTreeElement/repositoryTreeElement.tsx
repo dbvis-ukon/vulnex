@@ -47,9 +47,9 @@ class RepositoryTreeElement extends React.Component<TreeElementProps, State>  {
             };
     
             const handleGraphSymbolClick = () => {
-                //@ts-ignore
+                // @ts-ignore
                 this.props.changeGraphToRepository(item.id)
-                //@ts-ignore
+                // @ts-ignore
                 this.props.chooseGraphView();
             };
     
@@ -68,7 +68,13 @@ class RepositoryTreeElement extends React.Component<TreeElementProps, State>  {
             }
     
             const graphSymbol = <IoIosGitNetwork onClick={handleGraphSymbolClick} />;
-        
+
+            let numChildren = filtered.filter(e => e.refs.bugIds.length > 0).length;
+            //@ts-ignore
+            if (this.props.filter.showAllModules) {
+                numChildren = filtered.length;
+            }
+
             const elements = filtered.map((e, i) => <TreeElement key={i} tableState={this.props.tableState} dataItems={this.props.dataItems.concat([e])} />);
             
             const indent = { margin: '0px 0px 0px ' + (this.props.dataItems.length === 1 ? 0 : 25) + 'px' }   
@@ -79,7 +85,7 @@ class RepositoryTreeElement extends React.Component<TreeElementProps, State>  {
                     <div style={{ display: 'inline', color: REPOSITORY_COLOR }}>
                         <IoIosApps /> {data.name}
                     </div>
-                    <TableRowEntry itemType={ItemType.Repository} itemId={item.id} numChildren={elements.length} bugIds={item.refs.bugIds} showAllBugs={false} bugDisplay={INTERVALS} />
+                    <TableRowEntry itemType={ItemType.Repository} itemId={item.id} numChildren={numChildren} bugIds={item.refs.bugIds} showAllBugs={false} bugDisplay={INTERVALS} />
                     {this.state.expanded ? elements : null}
                 </div>
             );
@@ -100,7 +106,7 @@ class RepositoryTreeElement extends React.Component<TreeElementProps, State>  {
             return element();
         }        
 
-        //@ts-ignore
+        // @ts-ignore
         if (numErrors === 0 || numDependencies < this.props.filter.numDependencies || numErrors < this.props.filter.numErrors || minCvss < this.props.filter.minCvss || maxCvss > this.props.filter.maxCvss) {
             return null;
         }
