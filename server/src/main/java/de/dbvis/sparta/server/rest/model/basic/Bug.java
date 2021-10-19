@@ -3,6 +3,8 @@ package de.dbvis.sparta.server.rest.model.basic;
 import de.dbvis.sparta.server.rest.model.DataItem;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This class stores the data of a bug.
@@ -14,7 +16,7 @@ public class Bug extends DataItem implements Serializable {
     /**
      * The library affected by the library
      */
-    private LibraryFile file;
+    private Set<LibraryFile> files;
 
     /**
      * The name of the bug, e.g., CVE-2020-9399
@@ -46,14 +48,14 @@ public class Bug extends DataItem implements Serializable {
     }
 
     public Bug(int id,
-               LibraryFile file,
+               Set<LibraryFile> files,
                String name,
                String description,
                double cvssScore,
                String cvssVector,
                String cvssVersion) {
         super(id);
-        this.file = file;
+        this.files = files;
         this.name = name;
         this.description = description;
         this.cvssScore = cvssScore;
@@ -61,12 +63,12 @@ public class Bug extends DataItem implements Serializable {
         this.cvssVersion = cvssVersion;
     }
 
-    public LibraryFile getFile() {
-        return file;
+    public Set<LibraryFile> getFiles() {
+        return files;
     }
 
-    public void setFile(LibraryFile file) {
-        this.file = file;
+    public void setFile(Set<LibraryFile> file) {
+        this.files = files;
     }
 
     public String getName() {
@@ -113,7 +115,7 @@ public class Bug extends DataItem implements Serializable {
     public String toString() {
         return Bug.class.getName() + "[\n"
                 + "  id: " + getId() + ",\n"
-                + "  file: " + file + ",\n"
+                + "  files: " + files + ",\n"
                 + "  name: " + name + ",\n"
                 + "  description: " + description + ",\n"
                 + "  cvssScore: " + cvssScore + ",\n"
@@ -132,6 +134,11 @@ public class Bug extends DataItem implements Serializable {
         }
         Bug bug = (Bug) other;
         return bug.name.equals(this.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode();
     }
 
 }

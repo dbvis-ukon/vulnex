@@ -2,6 +2,7 @@ package de.dbvis.sparta.server.core.dataset.steady;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -144,8 +145,9 @@ public class SteadyRestApiAdapter {
                 file = addOrFindInList(file, files);
 
                 JSONObject jsonBug = (JSONObject) vulDep.get("bug");
-                Bug bug = createBug(jsonBug, file);
+                Bug bug = createBug(jsonBug);
                 bug = addOrFindInList(bug, bugs);
+                bug.getFiles().add(file);
 
                 AffectedState affectedState = determineAffectedState(vulDep);
                 if (affectedState == AffectedState.TRUE) {
@@ -197,7 +199,7 @@ public class SteadyRestApiAdapter {
         return new LibraryFile(files.size(), filename, digest);
     }
 
-    private Bug createBug(JSONObject bug, LibraryFile file) {
+    private Bug createBug(JSONObject bug) {
         String bugId = (String) bug.get("bugId");
         String description = (String) bug.get("description");
         double cvssScore = -1.0d;
@@ -212,7 +214,8 @@ public class SteadyRestApiAdapter {
         if (bug.get("cvssVersion") != null) {
             cvssVersion = (String) bug.get("cvssVersion");
         }
-        return new Bug(bugs.size(), file, bugId, description, cvssScore, cvssVector, cvssVersion);
+        return new Bug(bugs.size(), new HashSet<LibraryFile>(), bugId, description, cvssScore, cvssVector, cvssVersion);
     }
+
 
 }

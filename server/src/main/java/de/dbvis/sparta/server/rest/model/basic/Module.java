@@ -5,6 +5,7 @@ import de.dbvis.sparta.server.rest.model.DataItem;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -129,6 +130,11 @@ public class Module extends DataItem implements Serializable {
         return this.groupId.equals(module.groupId) &&
                 this.artifactId.equals(module.artifactId) &&
                 this.version.equals(module.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.groupId, this.artifactId, this.version);
     }
 
 }

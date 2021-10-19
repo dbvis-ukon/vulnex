@@ -1,12 +1,13 @@
 package de.dbvis.sparta.server.core.dataset.steady;
 
 import de.dbvis.sparta.server.core.dataset.Dataset;
-import de.dbvis.sparta.server.rest.model.basic.Bug;
-import de.dbvis.sparta.server.rest.model.basic.BugCount;
-import de.dbvis.sparta.server.rest.model.basic.Vulnerability;
+import de.dbvis.sparta.server.rest.model.basic.*;
+import de.dbvis.sparta.server.rest.model.basic.Module;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -43,10 +44,19 @@ public class SteadyDataset extends Dataset {
             vulnerabilities = steadyRestApiAdapter.getVulnerabilities();
 
             modules = steadyRestApiAdapter.getModules();
-
             bugIdSets = createBugIdSetsForAllModules(modules, vulnerabilities);
+            for (int i = 0; i < modules.size(); i++) {
+                modules.get(i).setBugIds(bugIdSets.get(i));
+            }
 
             repositories = steadyRestApiAdapter.getRepositories();
+            for (Repository r : repositories) {
+                Set<Integer> bugIds = new HashSet<Integer>();
+                for (Module m : r.getParentModules()) {
+                    bugIds.addAll(m.getBugIds());
+                }
+                r.setBugIds(bugIds);
+            }
 
             bugCounts = createBugCounts(bugs, vulnerabilities);
 

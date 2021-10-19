@@ -82,4 +82,9 @@ public class Repository extends DataItem implements Serializable {
         return repository.data.getName().equals(this.data.getName());
     }
 
+    @Override
+    public int hashCode() {
+        return this.data.getName().hashCode();
+    }
+
 }

@@ -6,9 +6,7 @@ import de.dbvis.sparta.server.rest.model.basic.LibraryFile;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class BugFactory {
@@ -30,7 +28,7 @@ public class BugFactory {
                 if (optional.isPresent()) {
                     Bug bug = new Bug(
                             cachedRowSet.getInt(1),
-                            optional.get(),
+                            createListWithOneFile(optional.get()),
                             cachedRowSet.getString(3),
                             "",
                             cachedRowSet.getDouble(4),
@@ -44,6 +42,15 @@ public class BugFactory {
         } catch (SQLException e) {
             log.severe("Could not create bugs from cached result!");
         }
+        return result;
+    }
+
+    private Set<LibraryFile> createListWithOneFile(LibraryFile file) {
+        if (file == null) {
+            return new HashSet<LibraryFile>(0);
+        }
+        Set<LibraryFile> result = new HashSet<LibraryFile>(1);
+        result.add(file);
         return result;
     }
 

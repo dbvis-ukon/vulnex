@@ -85,4 +85,9 @@ public class LibraryFile extends DataItem implements Serializable {
         return this.sha1.equals(file.sha1);
     }
 
+    @Override
+    public int hashCode() {
+        return this.sha1.hashCode();
+    }
+
 }

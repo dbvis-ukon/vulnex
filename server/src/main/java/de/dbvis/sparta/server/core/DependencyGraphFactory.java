@@ -50,20 +50,21 @@ public class DependencyGraphFactory {
         for (Bug b : determineBugsOfModule(module)) {
             final String bugNodeId = "B" + b.getId();
             BugGraphNode bugNode = new BugGraphNode(bugNodeId, b);
-            LibraryFile library = b.getFile();
-            final String libraryNodeId = "L" + library.getId();
-            LibraryGraphNode libraryGraphNode = new LibraryGraphNode(libraryNodeId, new HashSet<String>(), library);
-            if (!nodes.contains(libraryGraphNode)) {
-                libraryGraphNode.getParentIds().add(bugNodeId);
-                nodes.add(libraryGraphNode);
-            } else {
-                GraphNode existingNode = nodes.stream().filter(e -> e.equals(libraryGraphNode)).findFirst().get();
-                existingNode.getParentIds().add(bugNodeId);
+            for (LibraryFile library : b.getFiles()) {
+                final String libraryNodeId = "L" + library.getId();
+                LibraryGraphNode libraryGraphNode = new LibraryGraphNode(libraryNodeId, new HashSet<String>(), library);
+                if (!nodes.contains(libraryGraphNode)) {
+                    libraryGraphNode.getParentIds().add(bugNodeId);
+                    nodes.add(libraryGraphNode);
+                } else {
+                    GraphNode existingNode = nodes.stream().filter(e -> e.equals(libraryGraphNode)).findFirst().get();
+                    existingNode.getParentIds().add(bugNodeId);
+                }
+                if (!nodes.contains(bugNode)) {
+                    nodes.add(bugNode);
+                }
+                moduleNode.getParentIds().add(libraryNodeId);
             }
-            if (!nodes.contains(bugNode)) {
-                nodes.add(bugNode);
-            }
-            moduleNode.getParentIds().add(libraryNodeId);
         }
     }
 

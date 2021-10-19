@@ -1,7 +1,5 @@
 package de.dbvis.sparta.server.core.dataset.steady;
 
-import de.dbvis.sparta.server.rest.model.data.BugData;
-
 public class SteadySpace {
 
     private final String spaceToken;

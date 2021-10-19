@@ -115,10 +115,10 @@ public abstract class Dataset {
     }
 
     protected void updateFilesWithBugIds() {
-        files.parallelStream().forEach(file -> {
+        files.stream().forEach(file -> {
             final Set<Integer> bugIds = new HashSet<Integer>();
             for (Bug bug : bugs) {
-                if (bug.getFile() != null && bug.getFile().equals(file)) {
+                if (bug.getFiles().contains(file)) {
                     bugIds.add(bug.getId());
                 }
             }

@@ -40,46 +40,69 @@ public class ReferencedItemFactory {
        log.info("Building referenced repository data.");
         List<ReferencedItem> result = new ArrayList<ReferencedItem>(repositories.size());
         for (Repository r : repositories) {
-            Set<Bug> bugs = determineBugsOfModulesAndSubModules(r.getParentModules());
-            IdReferences ir = new IdReferences(bugs.stream().map(e -> e.getId()).collect(Collectors.toSet()),
-                    bugs.stream().map(e -> e.getFile().getId()).collect(Collectors.toSet()),
-                    r.getParentModules().stream().map(e -> e.getId()).collect(Collectors.toSet()),
-                    new HashSet<Integer>());
-            result.add(new ReferencedItem(r.getId(), ItemType.REPOSITORY, r.getData(), ir));
+            ReferencedItem referencedItem = createReferencedRepositoryItem(r);
+            result.add(referencedItem);
         }
         return result;
     }
 
+    private ReferencedItem createReferencedRepositoryItem(Repository r) {
+        Set<Bug> repoBugs = determineBugsOfModulesAndSubModules(r.getParentModules());
+        IdReferences ir = new IdReferences(
+                repoBugs.stream().map(e -> e.getId()).collect(Collectors.toSet()),
+                determineFileIdsOfRepository(repoBugs),
+                r.getParentModules().stream().map(e -> e.getId()).collect(Collectors.toSet()),
+                new HashSet<Integer>());
+        return new ReferencedItem(r.getId(), ItemType.REPOSITORY, r.getData(), ir);
+    }
+
+    private Set<Integer> determineFileIdsOfRepository(Set<Bug> repoBugs) {
+        Set<Integer> fileIds = new HashSet<Integer>();
+        for (Bug b : repoBugs) {
+            for (LibraryFile f : b.getFiles()) {
+                fileIds.add(f.getId());
+            }
+        }
+        return fileIds;
+    }
+
     private Set<Bug> determineBugsOfModulesAndSubModules(List<Module> modules) {
-        Set<Bug> bugs = new HashSet<Bug>();
+        Set<Bug> result = new HashSet<Bug>();
         List<Module> flatModules = new ModuleListFlattener(modules).flatten();
         for (Module m : flatModules) {
             Set<Bug> b = vulnerabilities.stream()
                     .filter(e -> m.equals(e.getModule()))
                     .map(e -> e.getBug())
                     .collect(Collectors.toSet());
-            bugs.addAll(b);
+            result.addAll(b);
         }
-        return bugs;
+        return result;
     }
 
     public List<ReferencedItem> createReferencedBugs() {
         log.info("Building referenced bug data.");
         List<ReferencedItem> result = new ArrayList<ReferencedItem>(bugs.size());
         for (Bug b : bugs) {
-            BugData bd = new BugData(b.getName(),
-                    b.getDescription(),
-                    b.getCvssScore(),
-                    b.getCvssVector(),
-                    b.getCvssVersion());
-            Set<Integer> f = new HashSet<Integer>(1);
-            f.add(b.getFile().getId());
-            Set<Integer> m = determineAffectedModules(b);
-            Set<Integer> r = determineAffectedRepositories(m);
-            IdReferences ir = new IdReferences(new HashSet<Integer>(), f, m, r);
-            result.add(new ReferencedItem(b.getId(), ItemType.BUG, bd, ir));
+            ReferencedItem referencedItem = createReferencedBugItem(b);
+            result.add(referencedItem);
         }
         return result;
+    }
+
+    private ReferencedItem createReferencedBugItem(Bug b) {
+        BugData bd = new BugData(b.getName(),
+                b.getDescription(),
+                b.getCvssScore(),
+                b.getCvssVector(),
+                b.getCvssVersion());
+        Set<Integer> fileIds = new HashSet<Integer>();
+        for (LibraryFile f : b.getFiles()) {
+            fileIds.add(f.getId());
+        }
+        Set<Integer> m = determineAffectedModules(b);
+        Set<Integer> r = determineAffectedRepositories(m);
+        IdReferences ir = new IdReferences(new HashSet<Integer>(), fileIds, m, r);
+        return new ReferencedItem(b.getId(), ItemType.BUG, bd, ir);
     }
 
     private Set<Integer> determineAffectedModules(Bug b) {
@@ -104,13 +127,18 @@ public class ReferencedItemFactory {
         log.info("Building referenced library data.");
         List<ReferencedItem> result = new ArrayList<ReferencedItem>(files.size());
         for (LibraryFile f : files) {
-            LibraryFileData fd = new LibraryFileData(f.getName(), f.getSha1());
-            Set<Integer> m = determineDependentModules(f);
-            Set<Integer> r = determineAffectedRepositories(m);
-            IdReferences ir = new IdReferences(f.getBugIds(), new HashSet<Integer>(), m, r);
-            result.add(new ReferencedItem(f.getId(), ItemType.LIBRARY, fd, ir));
+            ReferencedItem referencedItem = createReferencedFileItem(f);
+            result.add(referencedItem);
         }
         return result;
+    }
+
+    private ReferencedItem createReferencedFileItem(LibraryFile f) {
+        LibraryFileData fd = new LibraryFileData(f.getName(), f.getSha1());
+        Set<Integer> m = determineDependentModules(f);
+        Set<Integer> r = determineAffectedRepositories(m);
+        IdReferences ir = new IdReferences(f.getBugIds(), new HashSet<Integer>(), m, r);
+        return new ReferencedItem(f.getId(), ItemType.LIBRARY, fd, ir);
     }
 
     private Set<Integer> determineDependentModules(LibraryFile f) {
@@ -122,23 +150,34 @@ public class ReferencedItemFactory {
 
     public List<ReferencedItem> createReferencedModules() {
         log.info("Building referenced module data.");
-        List<ReferencedItem> result = new ArrayList<ReferencedItem>();
         List<Module> flatModuleList = new ModuleListFlattener(modules).flatten();
+        List<ReferencedItem> result = new ArrayList<ReferencedItem>(flatModuleList.size());
         for (Module module : flatModuleList) {
-            ModuleData md = new ModuleData(module.getGroupId(), module.getArtifactId(), module.getVersion());
-            List<Bug> bugList = determineAllBugs(module);
-            Set<Integer> r = determineAffectedRepository(module.getId());
-            IdReferences ir = new IdReferences(
-                    bugList.stream().map(e -> e.getId()).collect(Collectors.toSet()),
-                    bugList.stream().map(e -> e.getFile().getId()).collect(Collectors.toSet()),
-                    module.getSubModules().stream().map(e -> e.getId()).collect(Collectors.toSet()),
-                    r);
-            result.add(new ReferencedItem(module.getId(), ItemType.MODULE, md, ir));
+            ReferencedItem referencedItem = createReferencedModuleItem(module);
+            result.add(referencedItem);
         }
         return result;
     }
 
-    private List<Bug> determineAllBugs(Module m) {
+    private ReferencedItem createReferencedModuleItem(Module module) {
+        ModuleData md = new ModuleData(module.getGroupId(), module.getArtifactId(), module.getVersion());
+        List<Bug> bugList = determineAllModuleBugs(module);
+        Set<Integer> r = determineAffectedRepository(module.getId());
+        Set<Integer> fileIds = new HashSet<Integer>();
+        for (Bug b : bugList) {
+            for (LibraryFile f : b.getFiles()) {
+                fileIds.add(f.getId());
+            }
+        }
+        IdReferences ir = new IdReferences(
+                bugList.stream().map(e -> e.getId()).collect(Collectors.toSet()),
+                fileIds,
+                module.getSubModules().stream().map(e -> e.getId()).collect(Collectors.toSet()),
+                r);
+        return new ReferencedItem(module.getId(), ItemType.MODULE, md, ir);
+    }
+
+    private List<Bug> determineAllModuleBugs(Module m) {
         return vulnerabilities.stream()
                 .filter(e -> new ModuleListFlattener(m).flatten().contains(e.getModule()))
                 .map(e -> e.getBug())
@@ -151,8 +190,7 @@ public class ReferencedItemFactory {
                     Set<Integer> i = new ModuleListFlattener(e.getParentModules()).flatten().stream()
                             .map(o -> o.getId())
                             .collect(Collectors.toSet());
-                    i.contains(m);
-                    return i.size() > 0;
+                    return i.contains(m);
                 }).map(e -> e.getId()).collect(Collectors.toSet());
     }
 }
