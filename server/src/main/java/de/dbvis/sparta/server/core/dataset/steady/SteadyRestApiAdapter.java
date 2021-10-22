@@ -139,22 +139,18 @@ public class SteadyRestApiAdapter {
             JSONArray vulnerableDependencies = (JSONArray) jsonObject.get("vulnerableDependencies");
             for (Object vulDepObj : vulnerableDependencies) {
                 JSONObject vulDep = (JSONObject) vulDepObj;
-
-                JSONObject dep = (JSONObject) vulDep.get("dep");
-                LibraryFile file = createLibraryFile(dep);
-                file = addOrFindInList(file, files);
-
-                JSONObject jsonBug = (JSONObject) vulDep.get("bug");
-                Bug bug = createBug(jsonBug);
-                bug = addOrFindInList(bug, bugs);
-                bug.getFiles().add(file);
-
                 AffectedState affectedState = determineAffectedState(vulDep);
                 if (affectedState == AffectedState.TRUE) {
+                    LibraryFile file = addLibraryFile(vulDep);
+
+                    JSONObject jsonBug = (JSONObject) vulDep.get("bug");
+                    Bug bug = createBug(jsonBug);
+                    bug = addOrFindInList(bug, bugs);
+                    bug.getFiles().add(file);
+
                     Vulnerability vulnerability = new Vulnerability(vulnerabilities.size(), bug, module, affectedState);
                     addOrFindInList(vulnerability, vulnerabilities);
                 }
-
             }
         }
         Repository repository = new Repository(
@@ -190,6 +186,13 @@ public class SteadyRestApiAdapter {
         String artifact = (String) app.get("artifact");
         String version = (String) app.get("version");
         return new Module(modules.size(), group, artifact, version);
+    }
+
+    private LibraryFile addLibraryFile(JSONObject vulDep) {
+        JSONObject dep = (JSONObject) vulDep.get("dep");
+        LibraryFile file = createLibraryFile(dep);
+        file = addOrFindInList(file, files);
+        return file;
     }
 
     private LibraryFile createLibraryFile(JSONObject dep) {
