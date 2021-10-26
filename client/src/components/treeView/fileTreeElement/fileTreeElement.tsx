@@ -82,8 +82,20 @@ class FileTreeElement extends React.Component<TreeElementProps, State>  {
             return element();
         }        
 
-        //@ts-ignore
-        if (numErrors === 0 || numDependencies < this.props.filter.numDependencies || numErrors < this.props.filter.numErrors || minCvss < this.props.filter.minCvss || maxCvss > this.props.filter.maxCvss) {
+        if (this.props.tableState !== 'LIBRARY_TABLE') {
+            return element();
+        }
+
+        if (numErrors === 0
+            //@ts-ignore
+            || numDependencies < this.props.filter.numDependencies
+            //@ts-ignore
+            || numErrors < this.props.filter.numErrors
+            //@ts-ignore
+            || minCvss < this.props.filter.minCvss
+            //@ts-ignore
+            || maxCvss > this.props.filter.maxCvss
+            ) {
             return null;
         }
         

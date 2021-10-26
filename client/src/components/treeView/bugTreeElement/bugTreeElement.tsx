@@ -68,6 +68,11 @@ class BugTreeElement extends React.Component<TreeElementProps, State> {
         if (this.props.showAllBugs && data.cvssScore === -1) {
             return element();
         }
+
+        if (this.props.tableState !== 'BUG_TABLE') {
+            return element();
+        }
+
         // @ts-ignore
         if (data.cvssScore >= this.props.minCvss && data.cvssScore <= this.props.maxCvss) {
             return element();

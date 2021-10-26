@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './repositoryTreeElement.css';
-import { IoIosArrowDown, IoIosArrowForward, IoIosCloseCircle, IoIosApps, IoIosGitNetwork } from 'react-icons/io';
+import { IoIosArrowDown, IoIosArrowForward, IoIosApps, IoIosGitNetwork } from 'react-icons/io';
 import TableRowEntry from 'components/treeView/tableRowEntry';
 import { connect } from 'react-redux';
 import { changeGraphToRespository } from 'reducers/graphReducer';
@@ -35,17 +35,7 @@ class RepositoryTreeElement extends React.Component<TreeElementProps, State>  {
             const arrowClickEvent = () => {
                 this.setState({ expanded: !this.state.expanded })
             };
-    
-            const isErrorOn = () => {
-                if (item.refs.bugIds === null) {
-                    return false;
-                }
-                if (item.refs.bugIds.length <= 0) {
-                    return false;
-                }
-                return true;
-            };
-    
+        
             const handleGraphSymbolClick = () => {
                 // @ts-ignore
                 this.props.changeGraphToRepository(item.id)
@@ -106,8 +96,20 @@ class RepositoryTreeElement extends React.Component<TreeElementProps, State>  {
             return element();
         }        
 
-        // @ts-ignore
-        if (numErrors === 0 || numDependencies < this.props.filter.numDependencies || numErrors < this.props.filter.numErrors || minCvss < this.props.filter.minCvss || maxCvss > this.props.filter.maxCvss) {
+        if (this.props.tableState !== 'REPOSITORY_TABLE') {
+            return element();
+        }
+
+        if (numErrors === 0
+            // @ts-ignore
+            || numDependencies < this.props.filter.numDependencies
+            // @ts-ignore
+            || numErrors < this.props.filter.numErrors
+            // @ts-ignore
+            || minCvss < this.props.filter.minCvss
+            // @ts-ignore
+            || maxCvss > this.props.filter.maxCvss
+            ) {
             return null;
         }
 

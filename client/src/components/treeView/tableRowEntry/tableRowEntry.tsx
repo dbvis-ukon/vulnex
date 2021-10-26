@@ -4,7 +4,6 @@ import DataStorageService from 'service/dataStorageService';
 import ActiveBugsEntry from 'components/treeView/tableRowEntry/activeBugsEntry';
 import ItemType from 'model/itemType';
 import { connect } from 'react-redux';
-import Repository from 'model/basic/repository';
 import { INTERVALS } from 'reducers/bugDisplayReducer';
 
 interface Props {
@@ -31,9 +30,6 @@ class TableRowEntry extends React.Component<Props, State>  {
         }
 
         const isBug = () => this.props.itemType === ItemType.Bug;
-        //const isLibrary = () => this.props.itemType === ItemType.Library;
-        //const isModule = () => this.props.itemType === ItemType.Module;
-        const isRepository = () => this.props.itemType === ItemType.Repository;
 
         const bugs = DataStorageService.getInstance().getBugsWithIds(this.props.bugIds);
         const scores = bugs.map(e => e.cvssScore).filter(e => e !== -1);
@@ -81,6 +77,7 @@ class TableRowEntry extends React.Component<Props, State>  {
             );
         };
 
+        /*
         const formatBigNumber = (n: number) => {
             if (n < 1000) {
                 return n;
@@ -130,6 +127,7 @@ class TableRowEntry extends React.Component<Props, State>  {
                 </div>
             );
         }
+        */
 
         const dependeciesPosition = { left: '768px' };
         const errorOnlyPosition = { left: '830px' };

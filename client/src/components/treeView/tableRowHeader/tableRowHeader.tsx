@@ -4,7 +4,7 @@ import { IoIosCloseCircle, IoIosArrowDropdown, IoIosArrowDropdownCircle, IoIosAr
 import { applyAscendingAlphabeticalOrdering, applyDescendingAlphabeticalOrdering, applyAscendingDependenciesCountSorting, applyDescendingDependenciesCountSorting, applyAscendingErrorCountSorting, applyDescendingErrorCountSorting, applyAscendingMinCvssSorting, applyDescendingMinCvssSorting, applyAscendingMaxCvssSorting, applyDescendingMaxCvssSorting } from 'reducers/sortReducer';
 import { connect } from 'react-redux';
 import { showTooltip, hideTooltip } from 'reducers/tooltipReducer';
-import { TREE_COLUMN_DESC, DEPENDENCIES_COLUMN_DESC, ERROR_COLUMN_DESC, CVSS_COLUMN_DESC, METAINFO_DESC, TOP_BUGS_DESC } from 'service/tooltipService';
+import { TREE_COLUMN_DESC, DEPENDENCIES_COLUMN_DESC, ERROR_COLUMN_DESC, CVSS_COLUMN_DESC, TOP_BUGS_DESC } from 'service/tooltipService';
 import DataStorageService from 'service/dataStorageService';
 import { toggleSearchPopup } from 'reducers/searchPopupReducer';
 import { INTERVALS } from 'reducers/bugDisplayReducer';
@@ -94,8 +94,11 @@ class TableRowHeader extends React.Component<Props, State>  {
 
         const topBugNames = DataStorageService.getInstance().getBugValuesWithIds(this.props.topBugs, e => e.name);
         const topBugElements = diagonalLabels(topBugNames);
+        
+        /*
         const lgtmMetaInfoLabelElements = diagonalLabels(['LGTM Grade', 'LGTM Alerts']);
         const gitHubMetaInfoLabelElements = diagonalLabels(['GitHub Issues', 'GitHub Stars', 'GitHub Watchers'], 53);
+        */
 
         return (
             <div className='TableRowHeader'>
