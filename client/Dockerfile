@@ -5,5 +5,4 @@ RUN npm install
 RUN npm run-script build
 
 FROM nginx:latest
-COPY --from=0 /usr/app/public/redirect.html /usr/share/nginx/html/index.html
 COPY --from=0 /usr/app/build /usr/share/nginx/html/vulnex
