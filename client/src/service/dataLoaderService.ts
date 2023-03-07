@@ -7,7 +7,7 @@ import DependencyGraph from 'model/graph/dependencyGraph';
 import Module from 'model/basic/module';
 import ReferencedItem from 'model/intersection/referencedItem';
 
-const API_PATH = window.location.hostname === 'dennig.dbvis.de' ? 'https://dennig.dbvis.de/vulnex' : 'http://localhost:4000';
+const API_PATH = window.location.hostname === 'dennig.dbvis.de' ? 'https://dennig.dbvis.de/vulnex' : 'http://localhost:4000/vulnex';
 
 export default class DataLoaderService {
 

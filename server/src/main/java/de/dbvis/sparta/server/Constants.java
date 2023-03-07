@@ -12,11 +12,13 @@ public class Constants {
      */
 
     /** Base URI the Grizzly HTTP server will listen on. **/
-    public static final String API_BASE_URI = "http://0.0.0.0:4000/api/";
-    public static final String REST_RESOURCES = "de.dbvis.sparta.server.rest.resources";
+
 
     public static final String STEADY_BACKEND = System.getenv("STEADY_BACKEND");
     public static final boolean DEMO_MODE = Boolean.parseBoolean(System.getenv("DEMO_MODE"));
+
+    public static final String API_BASE_URI = "http://0.0.0.0:4000/vulnex/api/";
+    public static final String REST_RESOURCES = "de.dbvis.sparta.server.rest.resources";
 
     /** Data source **/
     public static Dataset DATASET = null;
