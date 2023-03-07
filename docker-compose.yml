@@ -7,7 +7,7 @@ services:
             dockerfile: Dockerfile
         image: vulnex-frontend
         ports:
-            - "4001:80"
+            - "80:80"
         security_opt:
             - no-new-privileges
         restart: always

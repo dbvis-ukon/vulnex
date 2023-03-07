@@ -1,12 +1,13 @@
 {
   "name": "vulnex-client",
   "version": "0.1.0",
+  "homepage": "https://dennig.dbvis.de/vulnex",
   "description": "SPARTA vulnerability explorer",
   "author": "Frederik Dennig",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://gitlab.dbvis.de/sparta/code"
+    "url": "https://github.com/dbvis-ukon/vulnex"
   },
   "keywords": [
     "SPARTA",
