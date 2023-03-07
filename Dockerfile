@@ -8,6 +8,4 @@ WORKDIR /usr/server
 COPY ./server /usr/server
 RUN mvn clean package
 
-EXPOSE 3000
-
 CMD ["java", "-jar", "./target/sparta-server-1.0-SNAPSHOT-jar-with-dependencies.jar"]

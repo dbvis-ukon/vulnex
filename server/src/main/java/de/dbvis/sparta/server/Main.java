@@ -1,6 +1,5 @@
 package de.dbvis.sparta.server;
 
-import de.dbvis.sparta.server.core.dataset.Dataset;
 import de.dbvis.sparta.server.core.dataset.sqlite.FileCopier;
 import de.dbvis.sparta.server.core.dataset.sqlite.SqliteDataset;
 import de.dbvis.sparta.server.core.dataset.steady.SteadyDataset;
@@ -59,7 +58,6 @@ public class Main {
         }
         Constants.DATASET = Constants.DEMO_MODE ? SqliteDataset.getInstance() : SteadyDataset.getInstance();
         Constants.DATASET.initialize();
-        log.info("Loaded dataset: " + Constants.DATASET.getClass().getSimpleName());
         final HttpServer server = startServer();
         log.info(String.format("Jersey app started with WADL available at " + "%sapplication.wadl", Constants.API_BASE_URI));
         //log.info(String.format("Jersey app started with WADL available at " + "%sapplication.wadl\nHit enter to stop it...", Constants.API_BASE_URI));

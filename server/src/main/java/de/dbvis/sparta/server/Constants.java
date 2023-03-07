@@ -1,8 +1,6 @@
 package de.dbvis.sparta.server;
 
 import de.dbvis.sparta.server.core.dataset.Dataset;
-import de.dbvis.sparta.server.core.dataset.sqlite.SqliteDataset;
-import de.dbvis.sparta.server.core.dataset.steady.SteadyDataset;
 
 /**
  * Contains all important constants.
@@ -14,7 +12,7 @@ public class Constants {
      */
 
     /** Base URI the Grizzly HTTP server will listen on. **/
-    public static final String API_BASE_URI = "http://0.0.0.0:3000/api/";
+    public static final String API_BASE_URI = "http://0.0.0.0:4000/api/";
     public static final String REST_RESOURCES = "de.dbvis.sparta.server.rest.resources";
 
     public static final String STEADY_BACKEND = System.getenv("STEADY_BACKEND");

@@ -7,7 +7,7 @@ services:
             dockerfile: Dockerfile
         image: vulnex-frontend
         ports:
-            - "3001:80"
+            - "4001:80"
         security_opt:
             - no-new-privileges
         restart: always
@@ -19,7 +19,7 @@ services:
         image: vulnex-backend
         env_file: .env
         ports:
-            - "3000:3000"
+            - "4000:4000"
         security_opt:
             - no-new-privileges
         restart: always
