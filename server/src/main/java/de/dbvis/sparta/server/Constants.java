@@ -13,7 +13,6 @@ public class Constants {
 
     /** Base URI the Grizzly HTTP server will listen on. **/
 
-
     public static final String STEADY_BACKEND = System.getenv("STEADY_BACKEND");
     public static final boolean DEMO_MODE = Boolean.parseBoolean(System.getenv("DEMO_MODE"));
 
