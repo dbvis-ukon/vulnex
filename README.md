@@ -7,7 +7,7 @@ Building and running
 * Requires Docker (https://www.docker.com/)
 * In the `.env` file configure your the Eclipse Steady backend or set `DEMO_MODE=true`
 * Run `docker-compose up`
-* The to use the tool go to http://localhost/vulnex
+* The to use the tool go to http://localhost:4001/vulnex
 
 Demo mode
 ---------

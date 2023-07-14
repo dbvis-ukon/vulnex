@@ -1,0 +1,8 @@
+server {
+    listen 4001;
+    listen [::]:4001;
+    root /usr/share/nginx/html;
+    location ~ ^/vulnex(?:/(.*))?$ {
+        alias /usr/share/nginx/html/$1;
+    }
+}
